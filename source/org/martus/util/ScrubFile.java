@@ -36,12 +36,48 @@ public class ScrubFile
 	{
 		RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
 		randomFile.seek(0);
-			
-		for (int i=0; i< randomFile.length();++i)
-		{
-			randomFile.write(0x55);
+		
+		int smallChuck = 100;
+		byte smalldata[] = new byte[smallChuck];
+		int oneKb = 1024;
+		byte oneKdata[] = new byte[oneKb];
+		int fiveKb = 5 * oneKb;
+		byte fiveKdata[] = new byte[fiveKb];
+		int scrubWith = 0x55;
+		for(int d=0; d<fiveKb; ++d)
+		{	
+			fiveKdata[d] = (byte)scrubWith;
+			if(d<oneKb)
+				oneKdata[d] = (byte)scrubWith;
+			if(d<smallChuck)
+				smalldata[d] = (byte)scrubWith;
 		}
-			
+		
+		long length = randomFile.length();
+		for (int i=0; i < length;)
+		{
+			if(i+fiveKb < length)
+			{	
+				randomFile.write(fiveKdata);
+				i += fiveKb;
+			}
+			else if(i+oneKb < length)
+			{	
+				randomFile.write(oneKdata);
+				i += oneKb;
+			}
+			else if(i+smallChuck < length)
+			{	
+				randomFile.write(smalldata);
+				i += smallChuck;
+			}
+			else
+			{
+				for(int j = i; j < length; ++j)
+					randomFile.write(scrubWith);
+				break;
+			}
+		}
 		randomFile.close();		
 	}
 }
