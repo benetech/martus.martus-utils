@@ -46,35 +46,51 @@ public class UnicodeReader extends BufferedReader
 	}
 
 	//FIXME try remove this and combine with the real readAll
-	// NOTE: allowing unlimited length is risky because an attacker
-	// could feed us a file that would cause us to run out of RAM,
-	// especially on the server.
+	// NOTE: allowing unlimited length is not any riskier because an attacker
+	// could feed us a 100Meg file all on one line.
+	
 	public String readAll(int maxLines) throws IOException
 	{
-		String all = "";
+		StringBuffer all = new StringBuffer();
 		for(int i = 0; i < maxLines; ++i)
 		{
 			String line = readLine();
 			if(line == null)
 				break;
-			all += line + NEWLINE;
+			all.append(line);
+			all.append(NEWLINE);
 		}
 
-		return all;
+		return all.toString();
 	}
 
 	public String readAll() throws IOException
 	{
-		//TODO speedup use a StringBuffer.
-		String all = "";
+		StringBuffer all = new StringBuffer();
 		while(true)
 		{
 			String line = readLine();
 			if(line == null)
 				break;
-			all += line + NEWLINE;
+			all.append(line);
+			all.append(NEWLINE);
 		}
-		return all;
+		return all.toString();
+	}
+	public class BOMNotFoundException extends Exception {};
+	
+	public void skipBOM() throws BOMNotFoundException
+	{
+		try
+		{
+			char BOM = (char)read();
+			if(BOM != UnicodeWriter.BOM_UTF8)
+				throw new BOMNotFoundException();
+		}
+		catch(IOException e)
+		{
+			throw new BOMNotFoundException();
+		}
 	}
 
 	final String NEWLINE = System.getProperty("line.separator");

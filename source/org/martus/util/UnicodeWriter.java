@@ -37,6 +37,7 @@ public class UnicodeWriter extends OutputStreamWriter
 	public static final int CREATE = 0;
 	public static final int APPEND = 1;
 	public final static String NEWLINE = System.getProperty("line.separator");
+	public static final int BOM_UTF8 = 0xFEFF;
 
 	public UnicodeWriter(File file) throws IOException
 	{
@@ -51,6 +52,11 @@ public class UnicodeWriter extends OutputStreamWriter
 	public UnicodeWriter(OutputStream outputStream) throws IOException
 	{
 		super(outputStream, "UTF8");
+	}
+	
+	public void writeBOM() throws IOException
+	{
+		write(BOM_UTF8);
 	}
 
 	public void writeln(String text) throws IOException
