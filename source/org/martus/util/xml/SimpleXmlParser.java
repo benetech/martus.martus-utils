@@ -67,7 +67,6 @@ public class SimpleXmlParser extends DefaultHandler
 	
 	public void startDocument() throws SAXParseException
 	{
-		getCurrentLoader().startDocument();
 	}
 	
 	public void startElement(
@@ -83,11 +82,12 @@ public class SimpleXmlParser extends DefaultHandler
 			if(!qName.equals(expectedTag))
 				throw new SAXParseException("SimpleXmlParser expected root: " + expectedTag, null);
 			gotFirstTag = true;
+			getCurrentLoader().startDocument(attributes);
 			return;
 		}
 		SimpleXmlDefaultLoader newLoader = getCurrentLoader().startElement(qName);
 		insertNewCurrentLoader(newLoader);
-		getCurrentLoader().startDocument();
+		getCurrentLoader().startDocument(attributes);
 	}
 
 	public void characters(char[] ch, int start, int length)

@@ -31,6 +31,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 
 
@@ -135,6 +136,33 @@ public class TestSimpleXmlParser extends TestCase
 		assertEquals("tweedle", secondField.get("tag"));
 		assertEquals("tweedle", secondField.get("type"));
 		assertEquals("dum", secondField.get("choices")); 
+	}
+	
+	public void testAttributes() throws Exception
+	{
+		class AttributeLoader extends SimpleXmlDefaultLoader
+		{
+			public AttributeLoader()
+			{
+				super("tag");
+			}
+			
+			public String getX()
+			{
+				return x;
+			}
+			
+			public void startDocument(Attributes attrs) throws SAXParseException
+			{
+				x = attrs.getValue("x");
+			}
+
+			String x;
+		}
+		
+		AttributeLoader loader = new AttributeLoader();
+		SimpleXmlParser.parse(loader, "<tag x='y'></tag>");
+		assertEquals("y", loader.getX());
 	}
 	
 	class CustomFields

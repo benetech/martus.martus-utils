@@ -26,6 +26,7 @@ Boston, MA 02111-1307, USA.
 
 package org.martus.util.xml;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 
 
@@ -41,7 +42,7 @@ public abstract class SimpleXmlDefaultLoader
 		return thisTag;
 	}
 	
-	public void startDocument() throws SAXParseException
+	public void startDocument(Attributes attrs) throws SAXParseException
 	{
 	}
 	
