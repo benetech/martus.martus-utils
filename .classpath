@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/martus-hrdag"/>
-	<classpathentry kind="lib" path="C:/EclipseMartus/martus-thirdparty/common/XMLRPC/bin/xmlrpc-1.2-b1.jar"/>
+	<classpathentry kind="lib" path="/martus-thirdparty/common/XMLRPC/bin/xmlrpc-1.2-b1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
