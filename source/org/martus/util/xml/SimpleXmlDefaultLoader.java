@@ -37,11 +37,16 @@ public class SimpleXmlDefaultLoader
 		thisTag = tag;
 	}
 	
-	public void ignoreUnknownTags()
+	public void throwOnUnexpectedTags()
 	{
-		shouldIgnoreUnknownTags = true;
+		shouldThrowOnUnexpected = true;
 	}
-
+	
+	public boolean foundUnknownTags()
+	{
+		return foundUnknown;
+	}
+	
 
 	public String getTag()
 	{
@@ -54,14 +59,12 @@ public class SimpleXmlDefaultLoader
 	
 	public SimpleXmlDefaultLoader startElement(String tag) throws SAXParseException
 	{
-		if(shouldIgnoreUnknownTags)
-		{
-			SimpleXmlDefaultLoader newLoader = new SimpleXmlDefaultLoader(tag);
-			newLoader.ignoreUnknownTags();
-			return newLoader;
-		}
-		else
+		if(shouldThrowOnUnexpected)
 			throw new SAXParseException(getTag() + ": Unexpected tag: " + tag, null);
+
+		foundUnknown = true;
+		SimpleXmlDefaultLoader newLoader = new SimpleXmlDefaultLoader(tag);
+		return newLoader;
 	}
 	
 	public void addText(char[] ch, int start, int length) throws SAXParseException
@@ -70,7 +73,7 @@ public class SimpleXmlDefaultLoader
 	
 	public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
 	{
-		if(!shouldIgnoreUnknownTags)
+		if(shouldThrowOnUnexpected)
 			throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
 	}
 	
@@ -78,6 +81,7 @@ public class SimpleXmlDefaultLoader
 	{
 	}
 	
-	boolean shouldIgnoreUnknownTags;
 	String thisTag;
+	boolean shouldThrowOnUnexpected;
+	boolean foundUnknown;
 }

@@ -29,13 +29,12 @@ package org.martus.util.xml;
 import java.util.Map;
 import java.util.Vector;
 
-import junit.framework.TestCase;
-
+import org.martus.util.TestCaseEnhanced;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 
 
-public class TestSimpleXmlParser extends TestCase
+public class TestSimpleXmlParser extends TestCaseEnhanced
 {
 	public TestSimpleXmlParser(String name)
 	{
@@ -61,6 +60,7 @@ public class TestSimpleXmlParser extends TestCase
 		SimpleXmlStringLoader loader = new SimpleXmlStringLoader("name");
 		SimpleXmlParser.parse(loader, "<name>testing</name>");
 		assertEquals("testing", loader.getText());
+		assertFalse("unknown flag set?", loader.foundUnknownTags());
 	}
 
 	public void testMapLoader() throws Exception
@@ -81,7 +81,7 @@ public class TestSimpleXmlParser extends TestCase
 		assertEquals("unrelated", data.get("object"));
 	}
 	
-	public void testNestedBadly() throws Exception
+	public void testErrorHandling() throws Exception
 	{
 		CustomFieldsLoader loader = new CustomFieldsLoader(null, "fields");
 		try
@@ -93,9 +93,13 @@ public class TestSimpleXmlParser extends TestCase
 		{
 		}
 		
+		SimpleXmlParser.parse(loader, "<fields><IgnoreThis></IgnoreThis></fields>");
+		assertTrue("unknown flag not set?", loader.foundUnknownTags());
+
+		loader.throwOnUnexpectedTags();
 		try
 		{
-			SimpleXmlParser.parse(loader, "<fields><oops></oops></fields>");
+			SimpleXmlParser.parse(loader, "<fields><ShouldThrow></ShouldThrow></fields>");
 			fail("Should have thrown for unexpected tag");
 		}
 		catch(SAXParseException ignoreExpected)
@@ -109,14 +113,6 @@ public class TestSimpleXmlParser extends TestCase
 		SimpleXmlParser.parse(loader, "<fields>should be ignored</fields>");
 	}
 
-	public void testIgnoreUnknownTags() throws Exception
-	{
-		CustomFields fields = new CustomFields();
-		CustomFieldsLoader loader = new CustomFieldsLoader(fields, "fields");
-		loader.ignoreUnknownTags();	
-		SimpleXmlParser.parse(loader, "<fields> <badtag>bogus</badtag> </fields>");
-	}
-	
 	public void testFullSample() throws Exception
 	{
 		CustomFields fields = new CustomFields();
