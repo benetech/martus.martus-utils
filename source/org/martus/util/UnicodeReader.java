@@ -45,6 +45,7 @@ public class UnicodeReader extends BufferedReader
 		super(new InputStreamReader(inputStream, "UTF8"));
 	}
 
+	//FIXME try remove this and combine with the real readAll
 	public String readAll(int maxLines) throws IOException
 	{
 		String all = "";
@@ -61,6 +62,7 @@ public class UnicodeReader extends BufferedReader
 
 	public String readAll() throws IOException
 	{
+		//TODO speedup use a StringBuffer.
 		String all = "";
 		while(true)
 		{
