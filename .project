@@ -3,7 +3,6 @@
 	<name>martus-utils</name>
 	<comment></comment>
 	<projects>
-		<project>martus-hrdag</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
