@@ -27,6 +27,7 @@ Boston, MA 02111-1307, USA.
 package org.martus.util.xml;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.Vector;
 
@@ -46,15 +47,20 @@ public class SimpleXmlParser extends DefaultHandler
 	public static void parse(SimpleXmlDefaultLoader loaderToUse, String xmlText) throws 
 		IOException, ParserConfigurationException, SAXException
 	{
-		new SimpleXmlParser(loaderToUse, xmlText);
+		parse(loaderToUse, new StringReader(xmlText));
 	}
 	
-	private SimpleXmlParser(SimpleXmlDefaultLoader loaderToUse, String xmlText) throws 
+	public static void parse(SimpleXmlDefaultLoader loaderToUse, Reader xmlReader) throws 
+		IOException, ParserConfigurationException, SAXException
+	{
+		new SimpleXmlParser(loaderToUse, xmlReader);
+	}
+	
+	private SimpleXmlParser(SimpleXmlDefaultLoader loaderToUse, Reader xmlReader) throws 
 		IOException, ParserConfigurationException, SAXException
 	{
 		loaders = new Vector();
 		loaders.add(loaderToUse);
-		StringReader xmlReader = new StringReader(xmlText);
 		SAXParser saxParser = factory.newSAXParser();
 		saxParser.parse(new InputSource(xmlReader), this);
 	}
