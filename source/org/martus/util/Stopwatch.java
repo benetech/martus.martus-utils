@@ -26,6 +26,8 @@ Boston, MA 02111-1307, USA.
 
 package org.martus.util;
 
+import java.io.PrintStream;
+
 public class Stopwatch
 {
 	public Stopwatch()
@@ -47,6 +49,10 @@ public class Stopwatch
 	{
 		return System.currentTimeMillis() - millis;
 	}
-
+	
+	public void message(PrintStream out, String text)
+	{
+		out.println("" + elapsed() + ": " + text);
+	}
 	private long millis;
 }
