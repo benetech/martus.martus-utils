@@ -206,9 +206,11 @@ public class TestCaseEnhanced extends TestCase
 	{
 		try
 		{
-			for(int i = 2;; ++i)
+			int depth = 1;
+			while(true)
 			{
-				String completeCallingClassName = Reflection.getCallerClass(i).getName();
+			   ++depth;
+				String completeCallingClassName = Reflection.getCallerClass(depth).getName();
 				int pos = completeCallingClassName.lastIndexOf(".");
 				String classNameOnly = completeCallingClassName.substring(pos+1);
 				if(classNameOnly.startsWith("Test"))
