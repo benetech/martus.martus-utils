@@ -46,7 +46,23 @@ public class DirectoryTreeRemover
 		deleteSubDirectory(foldersLeftToDelete);
 		startingDir.delete();
 	}			
-	
+
+	static public void scrubAndDeleteEntireDirectoryTree(File startingDir)
+	{
+		File[] filesToDelete = startingDir.listFiles();
+		if(filesToDelete!=null)
+		{	
+			for (int i = 0; i < filesToDelete.length; i++)
+			{
+				scrubAndDeleteFile(filesToDelete[i]);
+			}
+		}
+				
+		File[] foldersLeftToDelete = fileFilter(startingDir);
+		scrubAndDeleteSubDirectory(foldersLeftToDelete);
+		startingDir.delete();
+	}
+
 	private static void scrubAndDeleteFile(File filesToDelete)
 	{		
 		try
@@ -93,36 +109,5 @@ public class DirectoryTreeRemover
 			}
 		});
 		return foldersLeftToDelete;
-	}
-	
-	static public void scrubAndDeleteEntireDirectoryTree(File startingDir)
-	{
-		File[] filesToDelete = startingDir.listFiles();
-		if(filesToDelete!=null)
-		{	
-			for (int i = 0; i < filesToDelete.length; i++)
-			{
-				scrubAndDeleteFile(filesToDelete[i]);
-			}
-		}
-				
-		File[] foldersLeftToDelete = fileFilter(startingDir);
-		scrubAndDeleteSubDirectory(foldersLeftToDelete);
-		startingDir.delete();
-	}
-	
-	static public boolean isContainSubDir(File startingDir)
-	{
-		File[] files = startingDir.listFiles();
-		
-		if (files != null)
-		{			
-			for (int i = 0; i < files.length; i++)
-			{				
-				if (files[i].isDirectory())
-					return true;
-			}
-		}		
-		return false;
 	}
 }
