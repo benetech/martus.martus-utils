@@ -30,13 +30,19 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 
 
-public abstract class SimpleXmlDefaultLoader
+public class SimpleXmlDefaultLoader
 {
 	public SimpleXmlDefaultLoader(String tag)
 	{
 		thisTag = tag;
 	}
 	
+	public void ignoreUnknownTags()
+	{
+		shouldIgnoreUnknownTags = true;
+	}
+
+
 	public String getTag()
 	{
 		return thisTag;
@@ -48,7 +54,14 @@ public abstract class SimpleXmlDefaultLoader
 	
 	public SimpleXmlDefaultLoader startElement(String tag) throws SAXParseException
 	{
-		throw new SAXParseException(getTag() + ": Unexpected tag: " + tag, null);
+		if(shouldIgnoreUnknownTags)
+		{
+			SimpleXmlDefaultLoader newLoader = new SimpleXmlDefaultLoader(tag);
+			newLoader.ignoreUnknownTags();
+			return newLoader;
+		}
+		else
+			throw new SAXParseException(getTag() + ": Unexpected tag: " + tag, null);
 	}
 	
 	public void addText(char[] ch, int start, int length) throws SAXParseException
@@ -57,12 +70,14 @@ public abstract class SimpleXmlDefaultLoader
 	
 	public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
 	{
-		throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
+		if(!shouldIgnoreUnknownTags)
+			throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
 	}
 	
 	public void endDocument() throws SAXParseException
 	{
 	}
 	
+	boolean shouldIgnoreUnknownTags;
 	String thisTag;
 }
