@@ -65,7 +65,7 @@ public class SimpleXmlParser extends DefaultHandler
 		saxParser.parse(new InputSource(xmlReader), this);
 	}
 	
-	public void startDocument()
+	public void startDocument() throws SAXParseException
 	{
 		getCurrentLoader().startDocument();
 	}
@@ -99,16 +99,17 @@ public class SimpleXmlParser extends DefaultHandler
 	public void endElement(String uri, String localName, String qName)
 		throws SAXException
 	{
-		SimpleXmlDefaultLoader endingLoader = getCurrentLoader();
-		endingLoader.endDocument();
 		if(loaders.size() > 1)
 		{
+			SimpleXmlDefaultLoader endingLoader = getCurrentLoader();
+			endingLoader.endDocument();
+
 			removeCurrentLoader();
 			getCurrentLoader().endElement(endingLoader);
 		}
 	}
 
-	public void endDocument()
+	public void endDocument() throws SAXParseException
 	{
 		getCurrentLoader().endDocument();
 	}

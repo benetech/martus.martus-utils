@@ -41,7 +41,7 @@ public abstract class SimpleXmlDefaultLoader
 		return thisTag;
 	}
 	
-	public void startDocument()
+	public void startDocument() throws SAXParseException
 	{
 	}
 	
@@ -59,7 +59,7 @@ public abstract class SimpleXmlDefaultLoader
 		throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
 	}
 	
-	public void endDocument()
+	public void endDocument() throws SAXParseException
 	{
 	}
 	
