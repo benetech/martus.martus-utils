@@ -88,6 +88,8 @@ public class Base64
 
 	public static byte[] decode(String base64) throws InvalidBase64Exception
 	{
+		if(base64.length() == 0)
+			return new byte[]{};
 		try
 		{
 			int pad = 0;
