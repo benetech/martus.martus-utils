@@ -74,7 +74,7 @@ public class TestCaseEnhanced extends TestCase
 		return tempFile;
 	}
 	
-	protected File createTempDirectory() throws IOException
+	public File createTempDirectory() throws IOException
 	{
 		File dir = createTempFile();
 		dir.delete();
