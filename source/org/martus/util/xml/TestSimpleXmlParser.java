@@ -101,15 +101,12 @@ public class TestSimpleXmlParser extends TestCase
 		catch(SAXParseException ignoreExpected)
 		{
 		}
-		
-		try
-		{
-			SimpleXmlParser.parse(loader, "<fields>dang</fields>");
-			fail("Should have thrown for unexpected text");
-		}
-		catch(SAXParseException ignoreExpected)
-		{
-		}
+	}
+	
+	public void testUnexpectedText() throws Exception
+	{
+		CustomFieldsLoader loader = new CustomFieldsLoader(null, "fields");
+		SimpleXmlParser.parse(loader, "<fields>should be ignored</fields>");
 	}
 
 	public void testFullSample() throws Exception

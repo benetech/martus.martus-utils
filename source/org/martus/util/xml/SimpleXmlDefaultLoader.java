@@ -52,11 +52,11 @@ public abstract class SimpleXmlDefaultLoader
 	
 	public void addText(char[] ch, int start, int length) throws SAXParseException
 	{
-		throw new SAXParseException(getTag() + ": Unexpected text: " + new String(ch, start, length), null);
 	}
 	
 	public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
 	{
+		throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
 	}
 	
 	public void endDocument()
