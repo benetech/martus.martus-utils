@@ -45,6 +45,11 @@ public class SimpleXmlMapLoader extends SimpleXmlDefaultLoader
 		return data;
 	}
 	
+	public String get(String key)
+	{
+		return (String)data.get(key);
+	}
+	
 	public SimpleXmlDefaultLoader startElement(String tag) throws SAXParseException
 	{
 		return new SimpleXmlStringLoader(tag);
