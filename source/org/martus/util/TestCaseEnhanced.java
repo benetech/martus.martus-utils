@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Vector;
+import sun.reflect.Reflection;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -201,6 +202,25 @@ public class TestCaseEnhanced extends TestCase
 			throw new AssertionFailedError(label + ": <" + expected + ">" + " not at end of " + "<" + container + ">");
 	}
 
+	public static String getCallingTestClass()
+	{
+		try
+		{
+			for(int i = 2;; ++i)
+			{
+				String completeCallingClassName = Reflection.getCallerClass(i).getName();
+				int pos = completeCallingClassName.lastIndexOf(".");
+				String classNameOnly = completeCallingClassName.substring(pos+1);
+				if(classNameOnly.startsWith("Test"))
+					return completeCallingClassName;
+			}
+		}
+		catch(RuntimeException e)
+		{
+		}
+		return "NoCallingTestFound";
+	}
+	
 	public void TRACE_BEGIN(String method)
 	{
 		if(VERBOSE)

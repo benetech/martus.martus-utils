@@ -41,7 +41,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Vector;
 
-
 public class Base64
 {
 	public static class InvalidBase64Exception extends Exception {}
