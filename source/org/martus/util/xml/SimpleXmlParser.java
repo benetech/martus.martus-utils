@@ -105,7 +105,7 @@ public class SimpleXmlParser extends DefaultHandler
 			endingLoader.endDocument();
 
 			removeCurrentLoader();
-			getCurrentLoader().endElement(endingLoader);
+			getCurrentLoader().endElement(endingLoader.getTag(), endingLoader);
 		}
 	}
 

@@ -227,9 +227,8 @@ public class TestSimpleXmlParser extends TestCaseEnhanced
 				return super.startElement(tag);
 		}
 
-		public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
+		public void endElement(String tag, SimpleXmlDefaultLoader ended) throws SAXParseException
 		{
-			String tag = ended.getTag();
 			if(tag.equals(styleTag))
 			{
 				SimpleXmlStringLoader styleHandler = (SimpleXmlStringLoader)ended;
@@ -243,7 +242,7 @@ public class TestSimpleXmlParser extends TestCaseEnhanced
 				mapHandler = null;
 			}
 			else
-				super.endElement(ended);
+				super.endElement(tag, ended);
 		}
 		
 		CustomFields customFields;

@@ -55,10 +55,10 @@ public class SimpleXmlMapLoader extends SimpleXmlDefaultLoader
 		return new SimpleXmlStringLoader(tag);
 	}
 	
-	public void endElement(SimpleXmlDefaultLoader endingHandler)
+	public void endElement(String tag, SimpleXmlDefaultLoader endingHandler)
 	{
 		SimpleXmlStringLoader pendingFieldData = (SimpleXmlStringLoader)endingHandler;
-		data.put(pendingFieldData.getTag(), pendingFieldData.getText());
+		data.put(tag, pendingFieldData.getText());
 	}
 
 	HashMap data;

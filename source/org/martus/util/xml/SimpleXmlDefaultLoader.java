@@ -81,10 +81,10 @@ public class SimpleXmlDefaultLoader
 	{
 	}
 	
-	public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
+	public void endElement(String tag, SimpleXmlDefaultLoader ended) throws SAXParseException
 	{
 		if(shouldThrowOnUnexpected)
-			throw new SAXParseException(getTag() + ": Unexpected end: " + ended.getTag(), null);
+			throw new SAXParseException(getTag() + ": Unexpected end: " + tag, null);
 	}
 	
 	public void endDocument() throws SAXParseException
