@@ -766,7 +766,7 @@ public class WebServerWithClientId implements Runnable
 					// tokenize first line of HTTP request
 					StringTokenizer tokens = new StringTokenizer(line);
 					String method = tokens.nextToken();
-					String uri = tokens.nextToken();
+					/*String uri =*/ tokens.nextToken();
 					String httpVersion = tokens.nextToken();
 					keepAlive = XmlRpc.getKeepAlive()
 							&& HTTP_11.equals(httpVersion);
