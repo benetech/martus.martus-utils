@@ -38,13 +38,21 @@ public class DirectoryUtils
 		{	
 			for (int i = 0; i < filesToDelete.length; i++)
 			{
-				filesToDelete[i].delete();
+				if(filesToDelete[i].isFile() && !filesToDelete[i].delete())
+					System.out.println("Unable to delete file: " + filesToDelete[i].getPath());
 			}
 		}
 				
 		File[] foldersLeftToDelete = fileFilter(startingDir);
-		deleteSubDirectory(foldersLeftToDelete);
-		startingDir.delete();
+		if(foldersLeftToDelete != null)
+		{
+			for (int i = 0; i < foldersLeftToDelete.length; i++)
+			{
+				deleteEntireDirectoryTree(foldersLeftToDelete[i]);
+			}
+		}
+		if(startingDir.exists() && !startingDir.delete())
+			System.out.println("Unable to delete folder: " + startingDir.getPath());
 	}			
 
 	static public void scrubAndDeleteEntireDirectoryTree(File startingDir)
@@ -59,62 +67,31 @@ public class DirectoryUtils
 		}
 				
 		File[] foldersLeftToDelete = fileFilter(startingDir);
-		scrubAndDeleteSubDirectory(foldersLeftToDelete);
-		startingDir.delete();
-	}
-
-	static public boolean containSubDirs(File startingDir)
-	{
-		File[] files = startingDir.listFiles();
-		
-		if (files != null)
-		{			
-			for (int i = 0; i < files.length; i++)
-			{				
-				if (files[i].isDirectory())
-					return true;
+		if(foldersLeftToDelete != null)
+		{
+			for(int i = 0; i < foldersLeftToDelete.length; ++i)
+			{	
+				scrubAndDeleteEntireDirectoryTree(foldersLeftToDelete[i]);
 			}
-		}		
-		return false;
+		}
+		if(startingDir.exists() && !startingDir.delete())
+			System.out.println("Unable to delete folder: " + startingDir.getPath());
 	}
-
 	
-	private static void scrubAndDeleteFile(File filesToDelete)
+	private static void scrubAndDeleteFile(File fileToScrubAndDelete)
 	{		
 		try
 		{
-			ScrubFile.scrub(filesToDelete);
-			filesToDelete.delete();
+			ScrubFile.scrub(fileToScrubAndDelete);
+			if(!fileToScrubAndDelete.delete())
+				System.out.println("Unable to delete file: " + fileToScrubAndDelete.getPath());
 		}
 		catch (IOException ioe)
-		{		
+		{	
+			System.out.println("Unable to delete file:" + fileToScrubAndDelete.getPath());
 		}			
 	}
 	
-	private static void deleteSubDirectory(File[] foldersLeftToDelete)
-	{		
-		if(foldersLeftToDelete != null)
-		{
-			for (int i = 0; i < foldersLeftToDelete.length; i++)
-			{
-				deleteEntireDirectoryTree(foldersLeftToDelete[i]);
-				foldersLeftToDelete[i].delete();
-			}
-		}
-	}	
-	
-	private static void scrubAndDeleteSubDirectory(File[] foldersLeftToDelete)
-	{
-		if(foldersLeftToDelete != null)
-		{
-			for (int i = 0; i < foldersLeftToDelete.length; i++)
-			{
-				deleteEntireDirectoryTree(foldersLeftToDelete[i]);
-				scrubAndDeleteFile(foldersLeftToDelete[i]);
-			}
-		}
-	}	
-
 	private static File[] fileFilter(File startingDir)
 	{
 		File[] foldersLeftToDelete = startingDir.listFiles(new FileFilter()
