@@ -27,8 +27,10 @@ Boston, MA 02111-1307, USA.
 package org.martus.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 import sun.reflect.Reflection;
 
@@ -83,6 +85,15 @@ public class TestCaseEnhanced extends TestCase
 		return dir;
 	}
 
+	public void copyResourceFileToLocalFile(File someTestLanguage, String mlpkFileToUse) throws FileNotFoundException, IOException
+	{
+		FileOutputStream out = new FileOutputStream(someTestLanguage);
+		InputStream in = getClass().getResource(mlpkFileToUse).openStream();
+		StreamCopier copier = new StreamCopier();
+		copier.copyStream(in, out);
+		in.close();
+		out.close();
+	}
 
 	public static void assertFalse(String message, boolean actual)
 	{
