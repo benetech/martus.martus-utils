@@ -56,6 +56,11 @@ public class UnicodeWriter extends OutputStreamWriter
 	public void writeln(String text) throws IOException
 	{
 		write(text);
+		writeln();
+	}
+	
+	public void writeln() throws IOException
+	{
 		write(NEWLINE);
 	}
 }
