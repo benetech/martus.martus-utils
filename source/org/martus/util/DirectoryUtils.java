@@ -117,4 +117,34 @@ public class DirectoryUtils
 		});
 		return foldersLeftToDelete;
 	}
+	
+	public static Vector getAllFilesLeastRecentFirst(File directory)
+	{
+		Vector sortedFileList = new Vector();
+		if(!directory.exists())
+			return sortedFileList;
+		File[] allFilesAndDirectories = directory.listFiles();
+		for(int i = 0; i < allFilesAndDirectories.length; ++i)
+		{
+			File fileToAdd = allFilesAndDirectories[i];
+			if(!fileToAdd.isFile())
+				continue;
+			long fileToAddLastModified = fileToAdd.lastModified();
+			int itemCount = sortedFileList.size();
+			boolean fileAdded = false;
+			for(int j= 0; j < itemCount; ++j)
+			{
+				if(fileToAddLastModified < ((File)sortedFileList.get(j)).lastModified())
+				{
+					sortedFileList.add(j, fileToAdd);
+					fileAdded = true;
+					break;
+				}
+			}
+			if(!fileAdded)
+				sortedFileList.add(fileToAdd);
+		}
+		return sortedFileList;
+	}
+	
 }

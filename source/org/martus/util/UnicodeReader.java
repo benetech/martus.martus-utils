@@ -77,6 +77,15 @@ public class UnicodeReader extends BufferedReader
 		}
 		return all.toString();
 	}
+	
+	public static String getFileContents(File file) throws IOException
+	{
+		UnicodeReader reader = new UnicodeReader(file);
+		String contents = reader.readAll();
+		reader.close();
+		return contents;
+	}
+	
 	public class BOMNotFoundException extends Exception {};
 	
 	public void skipBOM() throws BOMNotFoundException
