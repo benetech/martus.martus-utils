@@ -46,6 +46,9 @@ public class UnicodeReader extends BufferedReader
 	}
 
 	//FIXME try remove this and combine with the real readAll
+	// NOTE: allowing unlimited length is risky because an attacker
+	// could feed us a file that would cause us to run out of RAM,
+	// especially on the server.
 	public String readAll(int maxLines) throws IOException
 	{
 		String all = "";
