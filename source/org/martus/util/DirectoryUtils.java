@@ -43,15 +43,7 @@ public class DirectoryUtils
 	
 	static public void deleteEntireDirectoryTree(File startingDir)
 	{
-		File[] filesToDelete = startingDir.listFiles();
-		if(filesToDelete!=null)
-		{	
-			for (int i = 0; i < filesToDelete.length; i++)
-			{
-				if(filesToDelete[i].isFile() && !filesToDelete[i].delete())
-					System.out.println("Unable to delete file: " + filesToDelete[i].getPath());
-			}
-		}
+		deleteAllFilesOnlyInDirectory(startingDir);
 				
 		File[] foldersLeftToDelete = fileFilter(startingDir);
 		if(foldersLeftToDelete != null)
@@ -64,6 +56,19 @@ public class DirectoryUtils
 		if(startingDir.exists() && !startingDir.delete())
 			System.out.println("Unable to delete folder: " + startingDir.getPath());
 	}			
+
+	public static void deleteAllFilesOnlyInDirectory(File startingDir)
+	{
+		File[] filesToDelete = startingDir.listFiles();
+		if(filesToDelete!=null)
+		{	
+			for (int i = 0; i < filesToDelete.length; i++)
+			{
+				if(filesToDelete[i].isFile() && !filesToDelete[i].delete())
+					System.out.println("Unable to delete file: " + filesToDelete[i].getPath());
+			}
+		}
+	}
 
 	static public void scrubAndDeleteEntireDirectoryTree(File startingDir)
 	{
