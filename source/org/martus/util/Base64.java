@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Vector;
 
@@ -47,6 +48,11 @@ public class Base64
 
 	public final static int BYTESPERLINE = 45;
 
+	public static String encode(String raw) throws UnsupportedEncodingException
+	{
+		return encode(raw.getBytes("UTF-8"));
+	}
+	
 	public static String encode(byte[] raw)
 	{
 		return encode(raw, 0, raw.length);
