@@ -27,6 +27,7 @@ package org.martus.util;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 
 public class DirectoryTreeRemover
 {
@@ -34,22 +35,32 @@ public class DirectoryTreeRemover
 	{
 		File[] filesToDelete = startingDir.listFiles();
 		if(filesToDelete!=null)
-		{			
+		{	
 			for (int i = 0; i < filesToDelete.length; i++)
 			{
 				filesToDelete[i].delete();
 			}
 		}
 				
-		File[] foldersLeftToDelete = startingDir.listFiles(new FileFilter()
+		File[] foldersLeftToDelete = fileFilter(startingDir);
+		deleteSubDirectory(foldersLeftToDelete);
+		startingDir.delete();
+	}			
+	
+	private static void scrubAndDeleteFile(File filesToDelete)
+	{		
+		try
 		{
-			public boolean accept(File pathname)
-			{
-				if(pathname.isDirectory())
-					return true;
-				return false;				
-			}
-		});
+			ScrubFile.scrub(filesToDelete);
+			filesToDelete.delete();
+		}
+		catch (IOException ioe)
+		{		
+		}			
+	}
+	
+	private static void deleteSubDirectory(File[] foldersLeftToDelete)
+	{		
 		if(foldersLeftToDelete != null)
 		{
 			for (int i = 0; i < foldersLeftToDelete.length; i++)
@@ -58,6 +69,60 @@ public class DirectoryTreeRemover
 				foldersLeftToDelete[i].delete();
 			}
 		}
+	}	
+	
+	private static void scrubAndDeleteSubDirectory(File[] foldersLeftToDelete)
+	{
+		if(foldersLeftToDelete != null)
+		{
+			for (int i = 0; i < foldersLeftToDelete.length; i++)
+			{
+				deleteEntireDirectoryTree(foldersLeftToDelete[i]);
+				scrubAndDeleteFile(foldersLeftToDelete[i]);
+			}
+		}
+	}	
+
+	private static File[] fileFilter(File startingDir)
+	{
+		File[] foldersLeftToDelete = startingDir.listFiles(new FileFilter()
+		{
+			public boolean accept(File pathname)
+			{
+				return pathname.isDirectory();	
+			}
+		});
+		return foldersLeftToDelete;
+	}
+	
+	static public void scrubAndDeleteEntireDirectoryTree(File startingDir)
+	{
+		File[] filesToDelete = startingDir.listFiles();
+		if(filesToDelete!=null)
+		{	
+			for (int i = 0; i < filesToDelete.length; i++)
+			{
+				scrubAndDeleteFile(filesToDelete[i]);
+			}
+		}
+				
+		File[] foldersLeftToDelete = fileFilter(startingDir);
+		scrubAndDeleteSubDirectory(foldersLeftToDelete);
 		startingDir.delete();
+	}
+	
+	static public boolean isContainSubDir(File startingDir)
+	{
+		File[] files = startingDir.listFiles();
+		
+		if (files != null)
+		{			
+			for (int i = 0; i < files.length; i++)
+			{				
+				if (files[i].isDirectory())
+					return true;
+			}
+		}		
+		return false;
 	}
 }
