@@ -93,18 +93,17 @@ public class DirectoryUtils
 			System.out.println("Unable to delete folder: " + startingDir.getPath());
 	}
 	
-	private static void scrubAndDeleteFile(File fileToScrubAndDelete)
+	public static void scrubAndDeleteFile(File fileToScrubAndDelete)
 	{		
 		try
 		{
 			ScrubFile.scrub(fileToScrubAndDelete);
-			if(!fileToScrubAndDelete.delete())
-				System.out.println("Unable to delete file: " + fileToScrubAndDelete.getPath());
 		}
-		catch (IOException ioe)
+		catch (IOException nothingWeCanDoAboutThis)
 		{	
-			System.out.println("Unable to delete file:" + fileToScrubAndDelete.getPath());
 		}			
+		if(!fileToScrubAndDelete.delete())
+			System.out.println("Unable to delete file: " + fileToScrubAndDelete.getPath());
 	}
 	
 	private static File[] fileFilter(File startingDir)

@@ -41,6 +41,8 @@ public class TokenReplacement
 			String token = (String) keys.next();
 			checkToken(token);
 			String replacement = (String)tokenReplacement.get(token);
+			//Replace all \'s in replacement with \\ so the replaceall regex will not throw away single \ in the case of pathnames. 
+			replacement = replacement.replaceAll("\\\\","\\\\\\\\");
 			revised = revised.replaceAll(token, replacement);
 		}
 		return revised;		

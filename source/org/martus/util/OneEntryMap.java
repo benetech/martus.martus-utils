@@ -25,37 +25,13 @@ Boston, MA 02111-1307, USA.
 */
 package org.martus.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.Arrays;
+import java.util.HashMap;
 
 
-public class ScrubFile
+public class OneEntryMap extends HashMap
 {
-	static public void scrub(File file) throws IOException
+	public OneEntryMap(String key, String value)
 	{
-		if(fillData == null)
-		{
-			byte singleScrubByte = 0x55;
-			fillData = new byte[100*1024];	
-			Arrays.fill(fillData,singleScrubByte);
-		}
-	
-		RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
-		long length = file.length();
-		long offset = 0;
-		int fillLength = fillData.length;
-		while(offset + fillLength < length)
-		{
-			randomFile.write(fillData);
-			offset += fillLength;
-		}
-		int remander = (int)(length - offset);
-		randomFile.write(fillData, 0, remander);
-		randomFile.close();		
+		put(key,value);
 	}
-	static byte[] fillData;
-	
 }
-	
