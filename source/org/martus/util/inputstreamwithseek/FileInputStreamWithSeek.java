@@ -24,14 +24,35 @@ Boston, MA 02111-1307, USA.
 
 */
 
-package org.martus.util;
+package org.martus.util.inputstreamwithseek;
 
-import java.io.UnsupportedEncodingException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class StringInputStream extends ByteArrayInputStreamWithSeek
+public class FileInputStreamWithSeek extends InputStreamWithSeek
 {
-	public StringInputStream(String source) throws UnsupportedEncodingException
+	public FileInputStreamWithSeek(File fileToUse) throws IOException
 	{
-		super(source.getBytes("UTF-8"));
+		file = fileToUse;
+		inputStream = openStream();
 	}
+
+	InputStream openStream() throws IOException
+	{
+		return new FileInputStream(file);
+	}
+
+	public int read(byte[] bytes, int start, int len) throws IOException
+	{
+		return inputStream.read(bytes, start, len);
+	}
+
+	public int read(byte[] bytes) throws IOException
+	{
+		return inputStream.read(bytes);
+	}
+
+	File file;
 }

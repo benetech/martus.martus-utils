@@ -24,31 +24,27 @@ Boston, MA 02111-1307, USA.
 
 */
 
-package org.martus.util;
+package org.martus.util.inputstreamwithseek;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
-public class ByteArrayInputStreamWithSeek extends InputStreamWithSeek
+public class ZipEntryInputStreamWithSeek extends InputStreamWithSeek
 {
-	public ByteArrayInputStreamWithSeek(byte[] bytesToUse)
+	public ZipEntryInputStreamWithSeek(ZipFile zipToUse, ZipEntry entryToUse) throws IOException
 	{
-		bytes = bytesToUse;
-		try
-		{
-			inputStream = openStream();
-		}
-		catch(IOException impossible)
-		{
-			inputStream = null;
-		}
+		zip = zipToUse;
+		entry = entryToUse;
+		inputStream = openStream();
 	}
 
 	InputStream openStream() throws IOException
 	{
-		return new ByteArrayInputStream(bytes);
+		return zip.getInputStream(entry);
 	}
 
-	byte[] bytes;
+	protected ZipFile zip;
+	ZipEntry entry;
 }

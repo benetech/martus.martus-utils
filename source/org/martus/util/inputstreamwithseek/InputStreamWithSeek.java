@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 
 */
 
-package org.martus.util;
+package org.martus.util.inputstreamwithseek;
 
 import java.io.IOException;
 import java.io.InputStream;

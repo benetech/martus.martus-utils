@@ -24,15 +24,15 @@ Boston, MA 02111-1307, USA.
 
 */
 
-package org.martus.util;
+package org.martus.util.inputstreamwithseek;
 
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class ZipEntryInputStreamThatClosesZipFile extends ZipEntryInputStream
+public class ZipEntryInputStreamWithSeekThatClosesZipFile extends ZipEntryInputStreamWithSeek
 {
-	public ZipEntryInputStreamThatClosesZipFile(ZipFile zipToUse, ZipEntry entryToUse) throws IOException 
+	public ZipEntryInputStreamWithSeekThatClosesZipFile(ZipFile zipToUse, ZipEntry entryToUse) throws IOException 
 	{
 		super(zipToUse, entryToUse);
 	}
