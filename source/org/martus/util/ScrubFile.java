@@ -36,31 +36,22 @@ public class ScrubFile
 	static public void scrub(File file) throws IOException
 	{
 		byte singleScrubByte = 0x55;
-
-		byte[] tenthKdata = new byte[100];
-		Arrays.fill(tenthKdata,singleScrubByte);
-		byte[] oneKdata = new byte[1024];
-		Arrays.fill(oneKdata,singleScrubByte);
-		byte[] fiveKdata = new byte[5*1024];
-		Arrays.fill(fiveKdata,singleScrubByte);
+		byte[] fillData = new byte[100*1024];
+		Arrays.fill(fillData,singleScrubByte);
 
 		RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
 		randomFile.seek(0);
-		int i = 0;
 		long length = randomFile.length();
-
-		for(; i + fiveKdata.length < length ; i+=fiveKdata.length)
-			randomFile.write(fiveKdata);
-
-		for(; i + oneKdata.length < length ; i+=oneKdata.length)
-			randomFile.write(oneKdata);
-
-		for(; i + tenthKdata.length < length ; i+=tenthKdata.length)
-			randomFile.write(tenthKdata);
-
-		for(; i < length; ++i)
-			randomFile.write(singleScrubByte);
-
+		long offset = 0;
+		int fillLength = fillData.length;
+		while(offset + fillLength < length)
+		{
+			randomFile.write(fillData);
+			offset += fillLength;
+		}
+		int remander = (int)(length - offset);
+		randomFile.write(fillData, 0, remander);
 		randomFile.close();		
 	}
 }
+	
