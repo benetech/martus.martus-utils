@@ -31,7 +31,7 @@ import org.xml.sax.SAXParseException;
 
 public class SimpleXmlStringLoader extends SimpleXmlDefaultLoader
 {
-	SimpleXmlStringLoader(String tag)
+	public SimpleXmlStringLoader(String tag)
 	{
 		super(tag);
 		pendingText = new StringBuffer();
