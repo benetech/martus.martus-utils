@@ -35,13 +35,15 @@ public class ScrubFile
 {
 	static public void scrub(File file) throws IOException
 	{
-		byte singleScrubByte = 0x55;
-		byte[] fillData = new byte[100*1024];
-		Arrays.fill(fillData,singleScrubByte);
+		if(fillData == null)
+		{
+			byte singleScrubByte = 0x55;
+			fillData = new byte[100*1024];	
+			Arrays.fill(fillData,singleScrubByte);
+		}
 
 		RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
-		randomFile.seek(0);
-		long length = randomFile.length();
+		long length = file.length();
 		long offset = 0;
 		int fillLength = fillData.length;
 		while(offset + fillLength < length)
@@ -53,5 +55,7 @@ public class ScrubFile
 		randomFile.write(fillData, 0, remander);
 		randomFile.close();		
 	}
+	static byte[] fillData;
+	
 }
 	
