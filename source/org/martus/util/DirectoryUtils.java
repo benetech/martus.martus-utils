@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
-public class DirectoryTreeRemover
+public class DirectoryUtils
 {
 	static public void deleteEntireDirectoryTree(File startingDir)
 	{
@@ -63,6 +63,22 @@ public class DirectoryTreeRemover
 		startingDir.delete();
 	}
 
+	static public boolean containSubDirs(File startingDir)
+	{
+		File[] files = startingDir.listFiles();
+		
+		if (files != null)
+		{			
+			for (int i = 0; i < files.length; i++)
+			{				
+				if (files[i].isDirectory())
+					return true;
+			}
+		}		
+		return false;
+	}
+
+	
 	private static void scrubAndDeleteFile(File filesToDelete)
 	{		
 		try
