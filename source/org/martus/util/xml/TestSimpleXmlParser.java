@@ -109,6 +109,14 @@ public class TestSimpleXmlParser extends TestCase
 		SimpleXmlParser.parse(loader, "<fields>should be ignored</fields>");
 	}
 
+	public void testIgnoreUnknownTags() throws Exception
+	{
+		CustomFields fields = new CustomFields();
+		CustomFieldsLoader loader = new CustomFieldsLoader(fields, "fields");
+		loader.ignoreUnknownTags();	
+		SimpleXmlParser.parse(loader, "<fields> <badtag>bogus</badtag> </fields>");
+	}
+	
 	public void testFullSample() throws Exception
 	{
 		CustomFields fields = new CustomFields();
@@ -220,7 +228,7 @@ public class TestSimpleXmlParser extends TestCase
 				return new SimpleXmlMapLoader(tag);
 			}
 			else
-				throw new SAXParseException(getTag() + ": Unexpected tag: " + tag, null);
+				return super.startElement(tag);
 		}
 
 		public void endElement(SimpleXmlDefaultLoader ended) throws SAXParseException
@@ -239,7 +247,7 @@ public class TestSimpleXmlParser extends TestCase
 				mapHandler = null;
 			}
 			else
-				throw new SAXParseException(getTag() + ": Unexpected end: " + tag, null);
+				super.endElement(ended);
 		}
 		
 		CustomFields customFields;
