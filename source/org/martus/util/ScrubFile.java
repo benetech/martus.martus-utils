@@ -28,56 +28,39 @@ package org.martus.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 
 public class ScrubFile
 {
 	static public void scrub(File file) throws IOException
 	{
+		byte singleScrubByte = 0x55;
+
+		byte[] tenthKdata = new byte[100];
+		Arrays.fill(tenthKdata,singleScrubByte);
+		byte[] oneKdata = new byte[1024];
+		Arrays.fill(oneKdata,singleScrubByte);
+		byte[] fiveKdata = new byte[5*1024];
+		Arrays.fill(fiveKdata,singleScrubByte);
+
 		RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
 		randomFile.seek(0);
-		
-		int smallChuck = 100;
-		byte smalldata[] = new byte[smallChuck];
-		int oneKb = 1024;
-		byte oneKdata[] = new byte[oneKb];
-		int fiveKb = 5 * oneKb;
-		byte fiveKdata[] = new byte[fiveKb];
-		int scrubWith = 0x55;
-		for(int d=0; d<fiveKb; ++d)
-		{	
-			fiveKdata[d] = (byte)scrubWith;
-			if(d<oneKb)
-				oneKdata[d] = (byte)scrubWith;
-			if(d<smallChuck)
-				smalldata[d] = (byte)scrubWith;
-		}
-		
+		int i = 0;
 		long length = randomFile.length();
-		for (int i=0; i < length;)
-		{
-			if(i+fiveKb < length)
-			{	
-				randomFile.write(fiveKdata);
-				i += fiveKb;
-			}
-			else if(i+oneKb < length)
-			{	
-				randomFile.write(oneKdata);
-				i += oneKb;
-			}
-			else if(i+smallChuck < length)
-			{	
-				randomFile.write(smalldata);
-				i += smallChuck;
-			}
-			else
-			{
-				for(int j = i; j < length; ++j)
-					randomFile.write(scrubWith);
-				break;
-			}
-		}
+
+		for(; i + fiveKdata.length < length ; i+=fiveKdata.length)
+			randomFile.write(fiveKdata);
+
+		for(; i + oneKdata.length < length ; i+=oneKdata.length)
+			randomFile.write(oneKdata);
+
+		for(; i + tenthKdata.length < length ; i+=tenthKdata.length)
+			randomFile.write(tenthKdata);
+
+		for(; i < length; ++i)
+			randomFile.write(singleScrubByte);
+
 		randomFile.close();		
 	}
 }
