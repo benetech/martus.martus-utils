@@ -26,7 +26,12 @@ Boston, MA 02111-1307, USA.
 
 package org.martus.util.xml;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 
@@ -35,6 +40,11 @@ public class SimpleXmlDefaultLoader
 	public SimpleXmlDefaultLoader(String tag)
 	{
 		thisTag = tag;
+	}
+	
+	public void parse(String xml) throws IOException, ParserConfigurationException, SAXException
+	{
+		SimpleXmlParser.parse(this, xml);
 	}
 	
 	public void throwOnUnexpectedTags()
