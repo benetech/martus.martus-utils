@@ -45,45 +45,6 @@ public class FileTransfer implements Serializable
 		toFileName = to;
 	}
 	
-	public void setInputStream(FileInputStream input)
-	{
-		inputStream = input;
-	}
-	
-	public void setOutputStream(FileOutputStream output)
-	{
-		outputStream = output;
-	}
-	
-	public void setLineOfEntries(Vector entries)
-	{
-		lineOfEntries = entries;
-	}
-	
-	public Vector getLineOfEntries()
-	{
-		if (inputStream != null)
-		{
-			try
-			{
-				return FileTransfer.readDataStreamFromFile(fromFileName, inputStream);
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}	
-		return lineOfEntries;
-	}
-	
-	public String getFromFileName() {return fromFileName;}
-	public String getToFileName() {return toFileName;}
-	public FileInputStream getInputStream() {return inputStream;}
-	public FileOutputStream getOutputStream() {return outputStream;}				
-	
-	
-	
 	public static void copyFile(File in, File out) throws IOException 
 	{
 		streamTransfer(new FileInputStream(in), new FileOutputStream(out));
@@ -98,16 +59,6 @@ public class FileTransfer implements Serializable
 		 sourceChannel.close();
 		 destinationChannel.close();
 	}
-	
-	public static void writeDataToFile(File fileName, Vector lineEntries) throws IOException
-	{		
-		UnicodeWriter writer = new UnicodeWriter(fileName);
-		for (int i=0;i<lineEntries.size();++i)
-		{
-			writer.writeln((String)lineEntries.get(i));
-		}								
-		writer.close();			
-	}	
 	
 	public static Vector readDataFromFile(File adminFile) throws IOException
 	{
