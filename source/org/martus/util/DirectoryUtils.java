@@ -28,9 +28,19 @@ package org.martus.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Vector;
 
 public class DirectoryUtils
 {
+	
+	static public void deleteEntireDirectoryTree(Vector directoriesToDelete)
+	{
+		for(int i = 0; i< directoriesToDelete.size(); ++i)
+		{
+			deleteEntireDirectoryTree((File)directoriesToDelete.get(i));
+		}
+	}
+	
 	static public void deleteEntireDirectoryTree(File startingDir)
 	{
 		File[] filesToDelete = startingDir.listFiles();
