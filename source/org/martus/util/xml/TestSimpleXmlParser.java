@@ -52,7 +52,6 @@ public class TestSimpleXmlParser extends TestCase
 		}
 		catch(SAXParseException ignoreExpected)
 		{
-			;
 		}
 	}
 	
