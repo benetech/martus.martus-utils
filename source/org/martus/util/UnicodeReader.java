@@ -59,5 +59,18 @@ public class UnicodeReader extends BufferedReader
 		return all;
 	}
 
+	public String readAll() throws IOException
+	{
+		String all = "";
+		while(true)
+		{
+			String line = readLine();
+			if(line == null)
+				break;
+			all += line + NEWLINE;
+		}
+		return all;
+	}
+
 	final String NEWLINE = System.getProperty("line.separator");
 }
