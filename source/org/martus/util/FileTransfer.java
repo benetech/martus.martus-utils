@@ -39,12 +39,6 @@ import java.util.Vector;
 
 public class FileTransfer implements Serializable
 {
-	public FileTransfer(String from, String to) 
-	{
-		fromFileName = from;
-		toFileName = to;
-	}
-	
 	public static void copyFile(File in, File out) throws IOException 
 	{
 		streamTransfer(new FileInputStream(in), new FileOutputStream(out));
@@ -84,9 +78,4 @@ public class FileTransfer implements Serializable
 	}
 
 	
-	private String fromFileName="";
-	private String toFileName="";
-	private FileInputStream inputStream;
-	private FileOutputStream outputStream;
-	private Vector lineOfEntries = new Vector();
 }
