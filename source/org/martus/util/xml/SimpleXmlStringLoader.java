@@ -39,7 +39,7 @@ public class SimpleXmlStringLoader extends SimpleXmlDefaultLoader
 
 	public String getText()
 	{
-		return new String(pendingText);
+		return pendingText.toString();
 	}
 
 	public void addText(char[] ch, int start, int length) throws SAXParseException
