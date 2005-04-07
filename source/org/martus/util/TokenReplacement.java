@@ -25,6 +25,7 @@ Boston, MA 02111-1307, USA.
 */
 package org.martus.util;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -56,6 +57,14 @@ public class TokenReplacement
 			revised[i] = replaceTokens(original[i], tokenReplacement);
 		}
 		return revised;		
+	}
+	
+	public static String replaceToken(String originalMessage, String token, String replacementValue) throws TokenInvalidException
+	{
+		HashMap map = new HashMap();
+		map.put(token, replacementValue);
+		return TokenReplacement.replaceTokens(originalMessage, map);
+		
 	}
 	
 	private static void checkToken(String token) throws TokenInvalidException
