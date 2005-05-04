@@ -45,7 +45,7 @@ public class UnicodeReader extends BufferedReader
 		super(new InputStreamReader(inputStream, "UTF8"));
 	}
 
-	//FIXME try remove this and combine with the real readAll
+	// TODO: try remove this and combine with the real readAll
 	// NOTE: allowing unlimited length is not any riskier because an attacker
 	// could feed us a 100Meg file all on one line.
 	
