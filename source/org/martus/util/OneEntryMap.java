@@ -34,4 +34,7 @@ public class OneEntryMap extends HashMap
 	{
 		put(key,value);
 	}
+
+	// This class is NOT intended to be serialized!!!
+	static final long serialVersionUID = 1;
 }

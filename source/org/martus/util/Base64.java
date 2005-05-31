@@ -43,7 +43,11 @@ import java.util.Vector;
 
 public class Base64
 {
-	public static class InvalidBase64Exception extends Exception {}
+	public static class InvalidBase64Exception extends Exception
+	{
+		// This class is NOT intended to be serialized!!!
+		static final long serialVersionUID = 1;
+	}
 
 	public final static int BYTESPERLINE = 45;
 

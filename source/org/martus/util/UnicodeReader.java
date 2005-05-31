@@ -86,7 +86,11 @@ public class UnicodeReader extends BufferedReader
 		return contents;
 	}
 	
-	public class BOMNotFoundException extends Exception {};
+	public class BOMNotFoundException extends Exception 
+	{
+		// This class is NOT intended to be serialized!!!
+		static final long serialVersionUID = 1;
+	};
 	
 	public void skipBOM() throws BOMNotFoundException
 	{

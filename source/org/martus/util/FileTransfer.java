@@ -77,5 +77,7 @@ public class FileTransfer implements Serializable
 		return list;
 	}
 
+	// This class is NOT intended to be serialized!!!
+	static final long serialVersionUID = 1;
 	
 }
