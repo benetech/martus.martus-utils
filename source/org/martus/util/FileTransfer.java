@@ -31,13 +31,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.nio.channels.FileChannel;
 import java.util.Vector;
 
 
 
-public class FileTransfer implements Serializable
+public class FileTransfer
 {
 	public static void copyFile(File in, File out) throws IOException 
 	{
@@ -76,8 +75,4 @@ public class FileTransfer implements Serializable
 		
 		return list;
 	}
-
-	// This class is NOT intended to be serialized!!!
-	static final long serialVersionUID = 1;
-	
 }

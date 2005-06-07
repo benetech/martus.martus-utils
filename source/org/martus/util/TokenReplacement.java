@@ -34,8 +34,7 @@ public class TokenReplacement
 
 	public static class TokenInvalidException extends Exception 
 	{
-		// This class is NOT intended to be serialized!!!
-		static final long serialVersionUID = 1;
+		private static final long serialVersionUID = 1;
 	}
 
 	public static String replaceTokens(String original, Map tokenReplacement) throws TokenInvalidException 
