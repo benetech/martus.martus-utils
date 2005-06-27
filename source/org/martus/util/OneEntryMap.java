@@ -25,8 +25,6 @@ Boston, MA 02111-1307, USA.
 */
 package org.martus.util;
 
-import java.io.IOException;
-import java.io.NotSerializableException;
 import java.util.HashMap;
 
 
@@ -35,13 +33,6 @@ public class OneEntryMap extends HashMap
 	public OneEntryMap(String key, String value)
 	{
 		put(key,value);
-	}
-
-	// This class is NOT intended to be serialized!!!
-	private static final long serialVersionUID = 1;
-	private void writeObject(java.io.ObjectOutputStream stream) throws IOException
-	{
-		throw new NotSerializableException();
 	}
 
 }

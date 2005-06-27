@@ -45,7 +45,6 @@ public class Base64
 {
 	public static class InvalidBase64Exception extends Exception
 	{
-		private static final long serialVersionUID = 1;
 	}
 
 	public final static int BYTESPERLINE = 45;
