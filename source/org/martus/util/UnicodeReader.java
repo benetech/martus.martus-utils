@@ -88,7 +88,7 @@ public class UnicodeReader extends BufferedReader
 	
 	public class BOMNotFoundException extends Exception 
 	{
-	};
+	}
 	
 	public void skipBOM() throws BOMNotFoundException
 	{
