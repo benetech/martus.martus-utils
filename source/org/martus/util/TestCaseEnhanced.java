@@ -31,11 +31,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Vector;
-import sun.reflect.Reflection;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import sun.reflect.Reflection;
 
 
 public class TestCaseEnhanced extends TestCase
@@ -162,7 +163,7 @@ public class TestCaseEnhanced extends TestCase
 			throw new AssertionFailedError("<" + expected + ">" + " not found in " + "<" + container + ">");
 	}
 
-	public static void assertContains(String message, Object unexpected, Vector container)
+	public static void assertContains(String message, Object unexpected, Collection container)
 	{
 		assertNotNull(unexpected);
 		if (!container.contains(unexpected))
