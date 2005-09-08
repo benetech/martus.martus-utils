@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
-abstract public class TableSortableModel extends AbstractTableModel
+abstract public class SortableTableModel extends AbstractTableModel
 {
 	public abstract Object getValueAtDirect(int rowIndex, int columnIndex);
 
