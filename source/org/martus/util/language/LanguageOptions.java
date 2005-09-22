@@ -27,6 +27,7 @@ Boston, MA 02111-1307, USA.
 package org.martus.util.language;
 
 
+
 public class LanguageOptions
 {
 	static public void setDirectionRightToLeft()
@@ -61,10 +62,20 @@ public class LanguageOptions
 		return languagePaddingNeeded;
 	}
 	
+	static public int getExtraHeightIfNecessary()
+	{
+		if(needsLanguagePadding())
+			return EXTRA_PIXELS;
+		return 0;
+	}
+
+	
 	static private final int LEFT_TO_RIGHT = 0;
 	static private final int RIGHT_TO_LEFT = 1;
 	static private int direction;
+	static private final int EXTRA_PIXELS = 14;
 	
+
 	static private boolean languagePaddingNeeded;
 
 }
