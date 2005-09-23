@@ -99,16 +99,6 @@ public class MartusCalendar
 		cal.setTime(newTime);
 	}
 
-	public long getTimeInMillis()
-	{
-		return cal.getTimeInMillis();
-	}
-	
-	public void setTimeInMillis(long millis)
-	{
-		cal.setTimeInMillis(millis);
-	}
-	
 	public Calendar getCalendar()
 	{
 		return cal;
