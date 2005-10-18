@@ -235,6 +235,43 @@ public class TestCaseEnhanced extends TestCase
 		return "NoCallingTestFound";
 	}
 	
+	abstract public static class TestingThread extends Thread
+	{
+		public Throwable getResult()
+		{
+			return result;
+		}
+
+		public Throwable result;
+	}
+
+	abstract public static class ThreadFactory
+	{
+		abstract public TestingThread createThread(int copies) throws Exception;
+		abstract public void tearDown() throws Exception;
+	}
+	
+	public static void launchTestThreads(ThreadFactory factory, int threadCount, int iterations) throws Throwable
+	{
+		TestingThread[] threads = new TestingThread[threadCount];
+		for (int i = 0; i < threads.length; i++) 
+		{
+			threads[i] = factory.createThread(iterations);
+		}
+		
+		for (int i = 0; i < threads.length; i++) 
+		{
+			threads[i].start();
+		}
+		
+		for (int i = 0; i < threads.length; i++) 
+		{
+			threads[i].join();
+			if(threads[i].getResult() != null)
+				throw threads[i].getResult();
+		}
+	}
+	
 	public void TRACE_BEGIN(String method)
 	{
 		if(VERBOSE)
