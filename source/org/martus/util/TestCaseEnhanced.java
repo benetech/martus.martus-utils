@@ -245,14 +245,36 @@ public class TestCaseEnhanced extends TestCase
 		public Throwable result;
 	}
 
-	abstract public static class ThreadFactory
+	abstract public static interface ThreadFactory
 	{
 		abstract public TestingThread createThread(int copies) throws Exception;
 		abstract public void tearDown() throws Exception;
+		abstract public int getThreadCount();
+		abstract public int getIterations();
+
 	}
 	
-	public static void launchTestThreads(ThreadFactory factory, int threadCount, int iterations) throws Throwable
+	public void doThreadTests(ThreadFactory factory) throws Exception
 	{
+		try
+		{
+			launchTestThreads(factory);
+		}
+		catch (Throwable e)
+		{
+			e.printStackTrace();
+			throw(new Exception(e));
+		}
+		finally
+		{
+			factory.tearDown();
+		}
+	}
+	
+	public static void launchTestThreads(ThreadFactory factory) throws Throwable
+	{
+		int threadCount = factory.getThreadCount() * threadTestLoadScaleFactor;
+		int iterations = factory.getIterations() * threadTestLoadScaleFactor;
 		TestingThread[] threads = new TestingThread[threadCount];
 		for (int i = 0; i < threads.length; i++) 
 		{
@@ -310,6 +332,8 @@ public class TestCaseEnhanced extends TestCase
 	}
 
 	public final static String BAD_FILENAME = "<>//\\..??**::||";
+
+	public static int threadTestLoadScaleFactor = 1;
 	
 	private long methodStartedAt;
 	public boolean VERBOSE = false;
