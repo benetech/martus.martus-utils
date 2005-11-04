@@ -106,9 +106,12 @@ public class MartusCalendar
 	
 	private void clearTimeOfDay()
 	{
+		set(Calendar.HOUR, 12);
 		set(Calendar.HOUR_OF_DAY, 12);
 		set(Calendar.MINUTE, 0);
 		set(Calendar.SECOND, 0);
+		set(Calendar.MILLISECOND, 0);
+		set(Calendar.AM_PM, Calendar.PM);
 	}
 	
 	private static int UTC_OFFSET = 0;
