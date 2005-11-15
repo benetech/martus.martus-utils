@@ -86,10 +86,17 @@ public class TestCaseEnhanced extends TestCase
 		return dir;
 	}
 
-	public void copyResourceFileToLocalFile(File someTestLanguage, String mlpkFileToUse) throws FileNotFoundException, IOException
+	public InputStream getStreamFromResource(String resourceFile) throws FileNotFoundException, IOException
 	{
-		FileOutputStream out = new FileOutputStream(someTestLanguage);
-		InputStream in = getClass().getResource(mlpkFileToUse).openStream();
+		InputStream in = getClass().getResource(resourceFile).openStream();
+		assertNotNull(in);
+		return in;
+	}
+
+	public void copyResourceFileToLocalFile(File outputFile, String resourceFile) throws FileNotFoundException, IOException
+	{
+		FileOutputStream out = new FileOutputStream(outputFile);
+		InputStream in = getStreamFromResource(resourceFile);
 		StreamCopier copier = new StreamCopier();
 		copier.copyStream(in, out);
 		in.close();
