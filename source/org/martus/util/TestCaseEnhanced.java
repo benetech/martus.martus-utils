@@ -103,6 +103,12 @@ public class TestCaseEnhanced extends TestCase
 		out.close();
 	}
 
+	public static void assertFalse(boolean actual)
+	{
+		if(actual)
+			throw new AssertionFailedError();
+	}
+
 	public static void assertFalse(String message, boolean actual)
 	{
 		if(actual)
