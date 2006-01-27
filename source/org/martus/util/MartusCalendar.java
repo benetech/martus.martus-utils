@@ -55,7 +55,22 @@ public class MartusCalendar
 		this(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	public int get(int field)
+	public int getGregorianYear()
+	{
+		return get(Calendar.YEAR);
+	}
+	
+	public int getGregorianMonth()
+	{
+		return get(Calendar.MONTH);
+	}
+	
+	public int getGregorianDay()
+	{
+		return get(Calendar.DAY_OF_MONTH);
+	}
+	
+	private int get(int field)
 	{
 		return cal.get(field);
 	}
