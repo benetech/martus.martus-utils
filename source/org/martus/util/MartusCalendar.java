@@ -75,7 +75,7 @@ public class MartusCalendar
 		return cal.get(field);
 	}
 	
-	public void set(int field, int value)
+	private void set(int field, int value)
 	{
 		cal.set(field, value);
 	}
