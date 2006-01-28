@@ -33,19 +33,24 @@ import java.util.SimpleTimeZone;
 
 public class MartusCalendar
 {
+	public static MartusCalendar createMartusCalendarFromGregorian(int year, int month, int day)
+	{
+		return new MartusCalendar(year, month, day);
+	}
+
 	public MartusCalendar()
 	{
 		cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
 		clearTimeOfDay();
 	}
 	
-	public MartusCalendar(int year, int month, int day)
+	private MartusCalendar(int year, int month, int day)
 	{
 		this();
 		set(year, month, day);
 	}
 	
-	public MartusCalendar(Calendar copyFrom)
+	public MartusCalendar(GregorianCalendar copyFrom)
 	{
 		this(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
