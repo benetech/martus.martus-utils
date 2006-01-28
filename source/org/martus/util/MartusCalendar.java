@@ -42,16 +42,14 @@ public class MartusCalendar
 
 	public MartusCalendar()
 	{
-		cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
-		clearTimeOfDay();
 	}
 	
 	public MartusCalendar(GregorianCalendar copyFrom)
 	{
 		this();
-		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
+		set(copyFrom);
 	}
-	
+
 	public MartusCalendar(MartusCalendar copyFrom)
 	{
 		this();
@@ -60,78 +58,88 @@ public class MartusCalendar
 	
 	public int getGregorianYear()
 	{
-		return get(Calendar.YEAR);
+		return getGregorianCalendar().get(Calendar.YEAR);
 	}
 	
 	public int getGregorianMonth()
 	{
-		return get(Calendar.MONTH);
+		return getGregorianCalendar().get(Calendar.MONTH);
 	}
 	
 	public int getGregorianDay()
 	{
-		return get(Calendar.DAY_OF_MONTH);
-	}
-	
-	private int get(int field)
-	{
-		return cal.get(field);
-	}
-	
-	private void set(int field, int value)
-	{
-		cal.set(field, value);
+		return getGregorianCalendar().get(Calendar.DAY_OF_MONTH);
 	}
 	
 	public void setGregorian(int year, int month, int day)
 	{
-		set(Calendar.YEAR, year);
-		set(Calendar.MONTH, month);
-		set(Calendar.DAY_OF_MONTH, day);
+		gregorianYear = year;
+		gregorianMonth = month;
+		gregorianDay = day;
 	}
 	
 	public void add(int field, int value)
 	{
+		GregorianCalendar cal = getGregorianCalendar();
 		cal.add(field, value);
+		set(cal);
 	}
 	
 	public boolean before(MartusCalendar other)
 	{
-		return cal.before(other.cal);
+		return getGregorianCalendar().before(other.getGregorianCalendar());
 	}
 	
 	public boolean after(MartusCalendar other)
 	{
-		return cal.after(other.cal);
+		return getGregorianCalendar().after(other.getGregorianCalendar());
 	}
 	
 	public Date getTime()
 	{
-		return cal.getTime();
+		return getGregorianCalendar().getTime();
 	}
 	
 	public void setTime(Date newTime)
 	{
 		if(newTime.getTime() < 0)
 			newTime = new Date(0);
+		GregorianCalendar cal = createGregorianCalendarToday();
 		cal.setTime(newTime);
+		set(cal);
 	}
 
-	public Calendar getCalendar()
+	public GregorianCalendar getGregorianCalendar()
 	{
+		return createGregorianCalendar(gregorianYear, gregorianMonth, gregorianDay);
+	}
+	
+	private GregorianCalendar createGregorianCalendar(int year, int month, int day)
+	{
+		GregorianCalendar cal = createGregorianCalendarToday();
+		cal.set(year, month, day);
 		return cal;
 	}
 	
-	private void clearTimeOfDay()
+	private GregorianCalendar createGregorianCalendarToday()
 	{
-		set(Calendar.HOUR, 12);
-		set(Calendar.HOUR_OF_DAY, 12);
-		set(Calendar.MINUTE, 0);
-		set(Calendar.SECOND, 0);
-		set(Calendar.MILLISECOND, 0);
-		set(Calendar.AM_PM, Calendar.PM);
+		GregorianCalendar cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
+		cal.set(Calendar.HOUR, 12);
+		cal.set(Calendar.HOUR_OF_DAY, 12);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.set(Calendar.AM_PM, Calendar.PM);
+		return cal;
+	}
+	
+	private void set(GregorianCalendar copyFrom)
+	{
+		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	private static int UTC_OFFSET = 0;
-	private Calendar cal;
+	int gregorianYear;
+	int gregorianMonth;
+	int gregorianDay;
 }
