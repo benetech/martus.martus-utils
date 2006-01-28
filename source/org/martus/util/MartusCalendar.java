@@ -35,7 +35,9 @@ public class MartusCalendar
 {
 	public static MartusCalendar createMartusCalendarFromGregorian(int year, int month, int day)
 	{
-		return new MartusCalendar(year, month, day);
+		MartusCalendar cal = new MartusCalendar();
+		cal.setGregorian(year, month, day);
+		return cal;
 	}
 
 	public MartusCalendar()
@@ -44,20 +46,16 @@ public class MartusCalendar
 		clearTimeOfDay();
 	}
 	
-	private MartusCalendar(int year, int month, int day)
-	{
-		this();
-		set(year, month, day);
-	}
-	
 	public MartusCalendar(GregorianCalendar copyFrom)
 	{
-		this(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
+		this();
+		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	public MartusCalendar(MartusCalendar copyFrom)
 	{
-		this(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
+		this();
+		setGregorian(copyFrom.getGregorianYear(), copyFrom.getGregorianMonth(), copyFrom.getGregorianDay());
 	}
 	
 	public int getGregorianYear()
@@ -85,7 +83,7 @@ public class MartusCalendar
 		cal.set(field, value);
 	}
 	
-	public void set(int year, int month, int day)
+	public void setGregorian(int year, int month, int day)
 	{
 		set(Calendar.YEAR, year);
 		set(Calendar.MONTH, month);
