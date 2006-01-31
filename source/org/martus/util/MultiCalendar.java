@@ -100,10 +100,10 @@ public class MultiCalendar
 		gregorianDay = day;
 	}
 	
-	public void add(int field, int value)
+	public void addDays(int value)
 	{
 		GregorianCalendar cal = getGregorianCalendar();
-		cal.add(field, value);
+		cal.add(Calendar.DAY_OF_MONTH, value);
 		set(cal);
 	}
 	
