@@ -32,16 +32,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 
-public class MartusCalendar
+public class MultiCalendar
 {
-	public static MartusCalendar createFromGregorianYearMonthDay(int year, int month, int day)
+	public static MultiCalendar createFromGregorianYearMonthDay(int year, int month, int day)
 	{
-		MartusCalendar cal = new MartusCalendar();
+		MultiCalendar cal = new MultiCalendar();
 		cal.setGregorian(year, month, day);
 		return cal;
 	}
 
-	public static MartusCalendar createFromIsoDateString(String storedDateString)
+	public static MultiCalendar createFromIsoDateString(String storedDateString)
 	{
 		int yearStart = 0;
 		int yearLength = 4;
@@ -62,17 +62,17 @@ public class MartusCalendar
 		return createFromGregorianYearMonthDay(year, month, day);
 	}
 
-	public MartusCalendar()
+	public MultiCalendar()
 	{
 	}
 	
-	public MartusCalendar(GregorianCalendar copyFrom)
+	public MultiCalendar(GregorianCalendar copyFrom)
 	{
 		this();
 		set(copyFrom);
 	}
 
-	public MartusCalendar(MartusCalendar copyFrom)
+	public MultiCalendar(MultiCalendar copyFrom)
 	{
 		this();
 		setGregorian(copyFrom.getGregorianYear(), copyFrom.getGregorianMonth(), copyFrom.getGregorianDay());
@@ -107,12 +107,12 @@ public class MartusCalendar
 		set(cal);
 	}
 	
-	public boolean before(MartusCalendar other)
+	public boolean before(MultiCalendar other)
 	{
 		return getGregorianCalendar().before(other.getGregorianCalendar());
 	}
 	
-	public boolean after(MartusCalendar other)
+	public boolean after(MultiCalendar other)
 	{
 		return getGregorianCalendar().after(other.getGregorianCalendar());
 	}
@@ -148,8 +148,6 @@ public class MartusCalendar
 		int year = getGregorianYear();
 		int month = getGregorianMonth();
 		int day = getGregorianDay();
-		DecimalFormat fourDigit = new DecimalFormat("0000");
-		DecimalFormat twoDigit = new DecimalFormat("00");
 		return fourDigit.format(year) + "-" + twoDigit.format(month) + "-" + twoDigit.format(day);
 	}
 
@@ -170,6 +168,9 @@ public class MartusCalendar
 		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
+	private static DecimalFormat fourDigit = new DecimalFormat("0000");
+	private static DecimalFormat twoDigit = new DecimalFormat("00");
+
 	private static int UTC_OFFSET = 0;
 	int gregorianYear;
 	int gregorianMonth;
