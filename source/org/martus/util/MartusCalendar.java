@@ -64,7 +64,7 @@ public class MartusCalendar
 	
 	public int getGregorianMonth()
 	{
-		return getGregorianCalendar().get(Calendar.MONTH);
+		return getGregorianCalendar().get(Calendar.MONTH) + 1;
 	}
 	
 	public int getGregorianDay()
@@ -118,7 +118,7 @@ public class MartusCalendar
 	private GregorianCalendar createGregorianCalendar(int year, int month, int day)
 	{
 		GregorianCalendar cal = createGregorianCalendarToday();
-		cal.set(year, month, day);
+		cal.set(year, month - 1, day);
 		return cal;
 	}
 	
@@ -136,13 +136,13 @@ public class MartusCalendar
 	
 	private void set(GregorianCalendar copyFrom)
 	{
-		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH), copyFrom.get(Calendar.DAY_OF_MONTH));
+		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	public String calendarToYYYYMMDD()
 	{
 		int year = getGregorianYear();
-		int month = getGregorianMonth() + 1;
+		int month = getGregorianMonth();
 		int day = getGregorianDay();
 		DecimalFormat fourDigit = new DecimalFormat("0000");
 		DecimalFormat twoDigit = new DecimalFormat("00");
@@ -161,10 +161,10 @@ public class MartusCalendar
 		int dayLength = 2;
 		int dayEnd = dayStart + dayLength;
 		int year = Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
-		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd)) - 1;
+		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
 		int day = Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
-		int JANUARY = 0;
-		int DECEMBER = 11;
+		int JANUARY = 1;
+		int DECEMBER = 12;
 		if(year < 0 || month < JANUARY || month > DECEMBER || day < 1 || day > 31)
 			throw new RuntimeException("invalid date: " + storedDateString);
 		MartusCalendar result = new MartusCalendar();
