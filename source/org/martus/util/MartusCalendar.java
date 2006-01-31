@@ -34,11 +34,32 @@ import java.util.SimpleTimeZone;
 
 public class MartusCalendar
 {
-	public static MartusCalendar createMartusCalendarFromGregorian(int year, int month, int day)
+	public static MartusCalendar createFromGregorianYearMonthDay(int year, int month, int day)
 	{
 		MartusCalendar cal = new MartusCalendar();
 		cal.setGregorian(year, month, day);
 		return cal;
+	}
+
+	public static MartusCalendar createFromIsoDateString(String storedDateString)
+	{
+		int yearStart = 0;
+		int yearLength = 4;
+		int yearEnd = yearStart + yearLength;
+		int monthStart = yearEnd + 1;
+		int monthLength = 2;
+		int monthEnd = monthStart + monthLength;
+		int dayStart = monthEnd + 1;
+		int dayLength = 2;
+		int dayEnd = dayStart + dayLength;
+		int year = Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
+		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
+		int day = Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
+		int JANUARY = 1;
+		int DECEMBER = 12;
+		if(year < 0 || month < JANUARY || month > DECEMBER || day < 1 || day > 31)
+			throw new RuntimeException("invalid date: " + storedDateString);
+		return createFromGregorianYearMonthDay(year, month, day);
 	}
 
 	public MartusCalendar()
@@ -122,6 +143,16 @@ public class MartusCalendar
 		return cal;
 	}
 	
+	public String toIsoDateString()
+	{
+		int year = getGregorianYear();
+		int month = getGregorianMonth();
+		int day = getGregorianDay();
+		DecimalFormat fourDigit = new DecimalFormat("0000");
+		DecimalFormat twoDigit = new DecimalFormat("00");
+		return fourDigit.format(year) + "-" + twoDigit.format(month) + "-" + twoDigit.format(day);
+	}
+
 	private GregorianCalendar createGregorianCalendarToday()
 	{
 		GregorianCalendar cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
@@ -139,39 +170,6 @@ public class MartusCalendar
 		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	public String calendarToYYYYMMDD()
-	{
-		int year = getGregorianYear();
-		int month = getGregorianMonth();
-		int day = getGregorianDay();
-		DecimalFormat fourDigit = new DecimalFormat("0000");
-		DecimalFormat twoDigit = new DecimalFormat("00");
-		return fourDigit.format(year) + "-" + twoDigit.format(month) + "-" + twoDigit.format(day);
-	}
-
-	public static MartusCalendar yyyymmddWithDashesToCalendar(String storedDateString)
-	{
-		int yearStart = 0;
-		int yearLength = 4;
-		int yearEnd = yearStart + yearLength;
-		int monthStart = yearEnd + 1;
-		int monthLength = 2;
-		int monthEnd = monthStart + monthLength;
-		int dayStart = monthEnd + 1;
-		int dayLength = 2;
-		int dayEnd = dayStart + dayLength;
-		int year = Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
-		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
-		int day = Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
-		int JANUARY = 1;
-		int DECEMBER = 12;
-		if(year < 0 || month < JANUARY || month > DECEMBER || day < 1 || day > 31)
-			throw new RuntimeException("invalid date: " + storedDateString);
-		MartusCalendar result = new MartusCalendar();
-		result.setGregorian(year, month, day);
-		return result;
-	}
-
 	private static int UTC_OFFSET = 0;
 	int gregorianYear;
 	int gregorianMonth;
