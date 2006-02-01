@@ -64,18 +64,17 @@ public class MultiCalendar
 
 	public MultiCalendar()
 	{
+		set(createGregorianCalendarToday());
 	}
 	
 	public MultiCalendar(GregorianCalendar copyFrom)
 	{
-		this();
 		set(copyFrom);
 	}
 
 	public MultiCalendar(MultiCalendar copyFrom)
 	{
-		this();
-		setGregorian(copyFrom.getGregorianYear(), copyFrom.getGregorianMonth(), copyFrom.getGregorianDay());
+		set(copyFrom.getGregorianCalendar());
 	}
 	
 	public int getGregorianYear()
@@ -136,13 +135,6 @@ public class MultiCalendar
 		return createGregorianCalendar(gregorianYear, gregorianMonth, gregorianDay);
 	}
 	
-	private GregorianCalendar createGregorianCalendar(int year, int month, int day)
-	{
-		GregorianCalendar cal = createGregorianCalendarToday();
-		cal.set(year, month - 1, day);
-		return cal;
-	}
-	
 	public String toIsoDateString()
 	{
 		int year = getGregorianYear();
@@ -151,7 +143,14 @@ public class MultiCalendar
 		return fourDigit.format(year) + "-" + twoDigit.format(month) + "-" + twoDigit.format(day);
 	}
 
-	private GregorianCalendar createGregorianCalendarToday()
+	private static GregorianCalendar createGregorianCalendar(int year, int month, int day)
+	{
+		GregorianCalendar cal = createGregorianCalendarToday();
+		cal.set(year, month - 1, day);
+		return cal;
+	}
+	
+	private static GregorianCalendar createGregorianCalendarToday()
 	{
 		GregorianCalendar cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
 		cal.set(Calendar.HOUR, 12);
