@@ -130,7 +130,7 @@ public class MultiCalendar
 		set(cal);
 	}
 
-	public GregorianCalendar getGregorianCalendar()
+	private GregorianCalendar getGregorianCalendar()
 	{
 		return createGregorianCalendar(gregorianYear, gregorianMonth, gregorianDay);
 	}
