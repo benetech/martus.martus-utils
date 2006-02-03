@@ -26,7 +26,6 @@ Boston, MA 02111-1307, USA.
 
 package org.martus.util;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -137,10 +136,8 @@ public class MultiCalendar
 	
 	public String toIsoDateString()
 	{
-		int year = getGregorianYear();
-		int month = getGregorianMonth();
-		int day = getGregorianDay();
-		return fourDigit.format(year) + "-" + twoDigit.format(month) + "-" + twoDigit.format(day);
+		MultiDateFormat format = new MultiDateFormat("ymd", '-');
+		return format.format(this);
 	}
 
 	private static GregorianCalendar createGregorianCalendar(int year, int month, int day)
@@ -167,9 +164,6 @@ public class MultiCalendar
 		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	private static DecimalFormat fourDigit = new DecimalFormat("0000");
-	private static DecimalFormat twoDigit = new DecimalFormat("00");
-
 	private static int UTC_OFFSET = 0;
 	int gregorianYear;
 	int gregorianMonth;
