@@ -3,6 +3,7 @@
  * on 2006-02-06. According to that page, here is the license:
  * 
  * 
+ ***************
  * License
 
  The downloadable source code on this page is released under the Apache License. 
@@ -17,6 +18,11 @@
  the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
  OF ANY KIND, either express or implied. See the License for the specific language 
  governing permissions and limitations under the License.
+ 
+ ***************
+ * 
+ * This file was modified slightly by Benetech to avoid compile warnings
+ * 
  */
 
 package com.jhlabs.awt;
@@ -50,8 +56,10 @@ public class BasicGridLayout extends ConstraintLayout {
 	}
 
 	public BasicGridLayout(int rows, int cols, int hGap, int vGap, int hMargin, int vMargin) {
-		this.reqRows = rows = rows;
-		this.reqCols = cols = cols;
+		// The following two lines were modified by Benetech, to avoid compile warnings
+		// We ASSUME the "this." was missing from each of the middle values.
+		this.reqRows = this.rows = rows;
+		this.reqCols = this.cols = cols;
 		this.hGap = hGap;
 		this.vGap = vGap;
 		this.hMargin = hMargin;
@@ -225,7 +233,6 @@ public class BasicGridLayout extends ConstraintLayout {
 			int count = target.getComponentCount();
 			if (count > 0) {
 				Insets insets = target.getInsets();
-				Dimension size = target.getSize();
 				int index = 0;
 
 				calcCellSizes(target, type);
