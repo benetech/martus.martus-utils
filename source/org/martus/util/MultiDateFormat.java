@@ -31,17 +31,28 @@ import java.util.HashMap;
 
 public class MultiDateFormat
 {
-	public MultiDateFormat(String mdyOrderToUse, char delimiterToUse)
+	public MultiDateFormat(DatePreference datePref)
 	{
-		mdyOrder = mdyOrderToUse;
-		delimiter = delimiterToUse;
+		datePreference = datePref;
 	}
 	
-	public String format(MultiCalendar cal)
+	public String format(int localizedYear, int localizedMonth, int localizedDay)
 	{
-		Part year = new Part(fourDigit, cal.getGregorianYear());
-		Part month = new Part(twoDigit, cal.getGregorianMonth());
-		Part day = new Part(twoDigit, cal.getGregorianDay());
+		String mdyOrder = datePreference.getMdyOrderForText();
+		return format(mdyOrder, localizedYear, localizedMonth, localizedDay);
+	}
+
+	public String formatIgnoringRightToLeft(int localizedYear, int localizedMonth, int localizedDay)
+	{
+		String mdyOrder = datePreference.getMdyOrder();
+		return format(mdyOrder, localizedYear, localizedMonth, localizedDay);
+	}
+
+	private String format(String mdyOrder, int localizedYear, int localizedMonth, int localizedDay)
+	{
+		Part year = new Part(fourDigit, localizedYear);
+		Part month = new Part(twoDigit, localizedMonth);
+		Part day = new Part(twoDigit, localizedDay);
 		
 		HashMap codeToPart = new HashMap();
 		codeToPart.put(new Character('y'), year);
@@ -52,7 +63,7 @@ public class MultiDateFormat
 		for(int i = 0; i < mdyOrder.length(); ++i)
 		{
 			if(i > 0)
-				result.append(delimiter);
+				result.append(datePreference.getDelimiter());
 			Character thisPartCode = new Character(mdyOrder.charAt(i));
 			Part thisPart = (Part)codeToPart.get(thisPartCode);
 			result.append(thisPart.format.format(thisPart.value));
@@ -76,6 +87,5 @@ public class MultiDateFormat
 	private static DecimalFormat fourDigit = new DecimalFormat("0000");
 	private static DecimalFormat twoDigit = new DecimalFormat("00");
 
-	String mdyOrder;
-	char delimiter;
+	DatePreference datePreference;
 }

@@ -128,6 +128,25 @@ public class MultiCalendar
 		cal.setTime(newTime);
 		set(cal);
 	}
+	
+	public boolean equals(Object rawOther)
+	{
+		if(! (rawOther instanceof MultiCalendar))
+			return false;
+		
+		MultiCalendar other = (MultiCalendar)rawOther;
+		return other.getGregorianCalendar().equals(getGregorianCalendar());
+	}
+	
+	public int hashCode()
+	{
+		return getGregorianCalendar().hashCode();
+	}
+	
+	public String toString()
+	{
+		return toIsoDateString();
+	}
 
 	private GregorianCalendar getGregorianCalendar()
 	{
@@ -136,8 +155,8 @@ public class MultiCalendar
 	
 	public String toIsoDateString()
 	{
-		MultiDateFormat format = new MultiDateFormat("ymd", '-');
-		return format.format(this);
+		MultiDateFormat format = new MultiDateFormat(new DatePreference("ymd", '-'));
+		return format.formatIgnoringRightToLeft(getGregorianYear(), getGregorianMonth(), getGregorianDay());
 	}
 
 	private static GregorianCalendar createGregorianCalendar(int year, int month, int day)
@@ -164,7 +183,8 @@ public class MultiCalendar
 		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	private static int UTC_OFFSET = 0;
+	private static final int UTC_OFFSET = 0;
+	
 	int gregorianYear;
 	int gregorianMonth;
 	int gregorianDay;

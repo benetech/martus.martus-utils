@@ -25,30 +25,28 @@ Boston, MA 02111-1307, USA.
 */
 package org.martus.util;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
-public class TestUtil
+public class TestMultiCalendar extends TestCaseEnhanced
 {
-	public static void main (String[] args)
+	public TestMultiCalendar(String name)
 	{
-		runTests();
+		super(name);
 	}
 
-	public static void runTests ()
+	public void testEquals()
 	{
-		junit.textui.TestRunner.run (suite());
-	}
-
-	public static Test suite ( )
-	{
-		TestSuite suite= new TestSuite("All org.martus.util tests");
-
-		//suite.addTest(new TestSuite(TestXxxYyy.class));
-		suite.addTest(new TestSuite(TestDatePreference.class));
-		suite.addTest(new TestSuite(TestMultiDateFormat.class));
-		suite.addTest(new TestSuite(TestMultiCalendar.class));
+		MultiCalendar a = new MultiCalendar();
+		MultiCalendar b = new MultiCalendar();
+		assertEquals("not identical?", a, b);
+		assertEquals("hash not the same?", a.hashCode(), b.hashCode());
 		
-		return suite;
+		MultiCalendar c = new MultiCalendar(a);
+		c.addDays(1000);
+		assertNotEquals("not different?", a, c);
+		// all MultiCalendar hashCodes are identical, due to
+		// policy inside Java's Calendar.hashCode method
+		
+		assertNotEquals("didn't check type?", a, new Object());
+		
 	}
 }

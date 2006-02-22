@@ -36,9 +36,8 @@ public class TestMultiDateFormat extends TestCaseEnhanced
 
 	public void testBasics() throws Exception
 	{
-		MultiDateFormat format = new MultiDateFormat("mdy", '-');
-		MultiCalendar cal = MultiCalendar.createFromGregorianYearMonthDay(2004, 5, 15);
-		String result = format.format(cal);
+		MultiDateFormat format = new MultiDateFormat(new DatePreference("mdy", '-'));
+		String result = format.format(2004, 5, 15);
 		assertEquals("05-15-2004", result);
 	}
 }
