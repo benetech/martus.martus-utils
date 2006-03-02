@@ -76,6 +76,11 @@ public class MultiCalendar
 		set(copyFrom.getGregorianCalendar());
 	}
 	
+	public MultiCalendar(Date date)
+	{
+		setTime(date);
+	}
+	
 	public int getGregorianYear()
 	{
 		return getGregorianCalendar().get(Calendar.YEAR);
