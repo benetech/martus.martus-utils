@@ -44,24 +44,15 @@ public class MultiCalendar
 
 	public static MultiCalendar createFromIsoDateString(String storedDateString)
 	{
-		int yearStart = 0;
-		int yearLength = 4;
-		int yearEnd = yearStart + yearLength;
-		int monthStart = yearEnd + 1;
-		int monthLength = 2;
-		int monthEnd = monthStart + monthLength;
-		int dayStart = monthEnd + 1;
-		int dayLength = 2;
-		int dayEnd = dayStart + dayLength;
-		int year = Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
-		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
-		int day = Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
-		
-		if(adjustThaiLegacyDates && year > 2400)
-			year -= THAI_YEAR_OFFSET;
+		int year = getYearFromIso(storedDateString);
+		int month = getMonthFromIso(storedDateString);
+		int day = getDayFromIso(storedDateString);
 		
 		if(adjustPersianLegacyDates && year < 1900)
 			return createCalendarFromPersianYearMonthDay(year, month, day);
+		
+		if(adjustThaiLegacyDates && year > 2400)
+			year -= THAI_YEAR_OFFSET;
 		
 		int JANUARY = 1;
 		int DECEMBER = 12;
@@ -69,6 +60,27 @@ public class MultiCalendar
 			throw new RuntimeException("invalid date: " + year + "-" + month + "-" + day);
 
 		return createFromGregorianYearMonthDay(year, month, day);
+	}
+
+	private static int getYearFromIso(String storedDateString)
+	{
+		int yearStart = 0;
+		int yearEnd = yearStart + 4;
+		return Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
+	}
+
+	private static int getMonthFromIso(String storedDateString)
+	{
+		int monthStart = 5;
+		int monthEnd = monthStart + 2;
+		return Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
+	}
+
+	private static int getDayFromIso(String storedDateString)
+	{
+		int dayStart = 8;
+		int dayEnd = dayStart + 2;
+		return Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
 	}
 
 	public MultiCalendar()
