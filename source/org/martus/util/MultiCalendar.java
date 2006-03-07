@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 
+import com.ghasemkiani.util.icu.PersianCalendar;
+
 public class MultiCalendar
 {
 	public static MultiCalendar createFromGregorianYearMonthDay(int year, int month, int day)
@@ -54,10 +56,18 @@ public class MultiCalendar
 		int year = Integer.parseInt(storedDateString.substring(yearStart, yearEnd));
 		int month = Integer.parseInt(storedDateString.substring(monthStart, monthEnd));
 		int day = Integer.parseInt(storedDateString.substring(dayStart, dayEnd));
+		
+		if(adjustThaiLegacyDates && year > 2400)
+			year -= THAI_YEAR_OFFSET;
+		
+		if(adjustPersianLegacyDates && year < 1900)
+			return createCalendarFromPersianYearMonthDay(year, month, day);
+		
 		int JANUARY = 1;
 		int DECEMBER = 12;
 		if(year < 0 || month < JANUARY || month > DECEMBER || day < 1 || day > 31)
-			throw new RuntimeException("invalid date: " + storedDateString);
+			throw new RuntimeException("invalid date: " + year + "-" + month + "-" + day);
+
 		return createFromGregorianYearMonthDay(year, month, day);
 	}
 
@@ -188,9 +198,20 @@ public class MultiCalendar
 		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
+	public static MultiCalendar createCalendarFromPersianYearMonthDay(int year, int month, int day)
+	{
+		PersianCalendar pc = new PersianCalendar(year, month - 1, day, 12, 0, 0);
+		return new MultiCalendar(pc.getTime());
+	}
+
 	private static final int UTC_OFFSET = 0;
+	
+	public static boolean adjustThaiLegacyDates = false;
+	public static boolean adjustPersianLegacyDates = false;
 	
 	int gregorianYear;
 	int gregorianMonth;
 	int gregorianDay;
+
+	public static final int THAI_YEAR_OFFSET = 543;
 }
