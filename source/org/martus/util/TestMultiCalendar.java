@@ -50,45 +50,4 @@ public class TestMultiCalendar extends TestCaseEnhanced
 		
 	}
 	
-	public void testLegacyThaiDates()
-	{
-		assertFalse("Defaulting to adjusting legacy Thai dates?", MultiCalendar.adjustThaiLegacyDates);
-		
-		String legacyIso = "2548-10-20";
-		MultiCalendar notLegacy = MultiCalendar.createFromIsoDateString(legacyIso);
-		assertEquals("adjusted the year?", 2548, notLegacy.getGregorianYear());
-		
-		MultiCalendar.adjustThaiLegacyDates = true;
-		try
-		{
-			MultiCalendar legacy = MultiCalendar.createFromIsoDateString(legacyIso);
-			assertEquals("didn't adjust year?", 2005, legacy.getGregorianYear());
-		}
-		finally
-		{
-			MultiCalendar.adjustThaiLegacyDates = false;
-		}
-	}
-
-	public void testLegacyPersianDates()
-	{
-		assertFalse("Defaulting to adjusting legacy persian dates?", MultiCalendar.adjustPersianLegacyDates);
-		
-		String legacyIso = "1384-07-28";
-		MultiCalendar notLegacy = MultiCalendar.createFromIsoDateString(legacyIso);
-		assertEquals("adjusted the year?", 1384, notLegacy.getGregorianYear());
-		
-		MultiCalendar.adjustPersianLegacyDates = true;
-		try
-		{
-			MultiCalendar legacy = MultiCalendar.createFromIsoDateString(legacyIso);
-			assertEquals("didn't adjust year?", 2005, legacy.getGregorianYear());
-			assertEquals("didn't adjust month?", 10, legacy.getGregorianMonth());
-			assertEquals("didn't adjust day?", 20, legacy.getGregorianDay());
-		}
-		finally
-		{
-			MultiCalendar.adjustPersianLegacyDates = false;
-		}
-	}
 }
