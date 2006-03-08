@@ -175,7 +175,7 @@ public class MultiCalendar
 		return toIsoDateString();
 	}
 
-	private GregorianCalendar getGregorianCalendar()
+	public GregorianCalendar getGregorianCalendar()
 	{
 		return createGregorianCalendar(gregorianYear, gregorianMonth, gregorianDay);
 	}
