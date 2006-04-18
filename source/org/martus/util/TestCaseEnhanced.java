@@ -32,6 +32,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 import junit.framework.AssertionFailedError;
@@ -102,6 +104,18 @@ public class TestCaseEnhanced extends TestCase
 		in.close();
 		out.close();
 	}
+	
+	public Vector toVector(Set s)
+	{
+		Vector v = new Vector();
+		for(Iterator iter = s.iterator(); iter.hasNext();)
+		{
+			Object element = iter.next();
+			v.add(element);
+		}
+		return v;
+	}
+
 
 	public static void assertFalse(boolean actual)
 	{
