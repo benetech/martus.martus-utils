@@ -16,7 +16,7 @@ public class DirectoryLock
 
 	public void lock(File directory) throws IOException, AlreadyLockedException
 	{
-		File lockFile = new File(directory, "lock");
+		lockFile = new File(directory, "lock");
 		FileOutputStream tempLockStream = new FileOutputStream(lockFile);
 		FileLock lock = tempLockStream.getChannel().tryLock();
 		if(lock == null)
@@ -32,6 +32,7 @@ public class DirectoryLock
 		FileOutputStream tempLockStream = lockStream;
 		lockStream = null;
 		tempLockStream.close();
+		lockFile.delete();
 	}
 	
 	public boolean isLocked()
@@ -39,5 +40,6 @@ public class DirectoryLock
 		return (lockStream != null);
 	}
 	
+	private File lockFile;
 	private FileOutputStream lockStream;
 }
