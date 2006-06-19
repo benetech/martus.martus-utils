@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Vector;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import sun.reflect.Reflection;
@@ -168,7 +168,7 @@ public class TestCaseEnhanced extends TestCase
 											" WAS found in " + "<" + container + ">");
 	}
 
-	public static void assertContains(Object expected, Vector container)
+	public static void assertContains(Object expected, Collection container)
 	{
 		assertNotNull(expected);
 		if (!container.contains(expected))
@@ -183,14 +183,14 @@ public class TestCaseEnhanced extends TestCase
 											" not found in " + "<" + container + ">");
 	}
 
-	public static void assertNotContains(Object unexpected, Vector container)
+	public static void assertNotContains(Object unexpected, Collection container)
 	{
 		assertNotNull(unexpected);
 		if (container.contains(unexpected))
 			throw new AssertionFailedError("<" + unexpected + ">" + " WAS found in " + "<" + container + ">");
 	}
 
-	public static void assertNotContains(String message, Object unexpected, Vector container)
+	public static void assertNotContains(String message, Object unexpected, Collection container)
 	{
 		assertNotNull(unexpected);
 		if (container.contains(unexpected))
