@@ -218,4 +218,7 @@ public class MultiCalendar
 
 	public static int YEAR_NOT_SPECIFIED = 1;
 	public static final int THAI_YEAR_OFFSET = 543;
+	
+	public static final MultiCalendar UNKNOWN = createFromGregorianYearMonthDay(MultiCalendar.YEAR_NOT_SPECIFIED, 1, 1);
+
 }
