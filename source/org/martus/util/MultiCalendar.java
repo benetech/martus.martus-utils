@@ -216,5 +216,6 @@ public class MultiCalendar
 	int gregorianMonth;
 	int gregorianDay;
 
+	public static int YEAR_NOT_SPECIFIED = 1;
 	public static final int THAI_YEAR_OFFSET = 543;
 }
