@@ -67,7 +67,7 @@ public class JSONObject {
         /**
          * Make a Null object.
          */
-        private Null() {
+        Null() {
         }
 
 
