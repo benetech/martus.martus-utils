@@ -126,6 +126,13 @@ public class MultiCalendar
 		set(cal);
 	}
 	
+	public static int daysBetween(MultiCalendar first, MultiCalendar second)
+	{
+		long millisApart = second.getTime().getTime() - first.getTime().getTime();
+		long millisInOneDay = 1000L * 60 * 60 * 24;
+		return (int)(millisApart / millisInOneDay);
+	}
+	
 	public boolean before(MultiCalendar other)
 	{
 		return getGregorianCalendar().before(other.getGregorianCalendar());
@@ -134,6 +141,13 @@ public class MultiCalendar
 	public boolean after(MultiCalendar other)
 	{
 		return getGregorianCalendar().after(other.getGregorianCalendar());
+	}
+	
+	public boolean isDefinitelyAfter(MultiCalendar other)
+	{
+		if(isUnknown() || other.isUnknown())
+			return false;
+		return after(other);
 	}
 	
 	public Date getTime()
@@ -208,6 +222,11 @@ public class MultiCalendar
 	{
 		PersianCalendar pc = new PersianCalendar(year, month - 1, day, 12, 0, 0);
 		return new MultiCalendar(pc.getTime());
+	}
+	
+	public boolean isUnknown()
+	{
+		return (getGregorianYear() == YEAR_NOT_SPECIFIED);
 	}
 
 	private static final int UTC_OFFSET = 0;

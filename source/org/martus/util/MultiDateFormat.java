@@ -50,6 +50,12 @@ public class MultiDateFormat
 
 	private String format(String mdyOrder, int localizedYear, int localizedMonth, int localizedDay)
 	{
+		String delimiter = new String(new char[] {datePreference.getDelimiter()});
+		return format(mdyOrder, delimiter, localizedYear, localizedMonth, localizedDay);
+	}
+
+	public static String format(String mdyOrder, String delimiter, int localizedYear, int localizedMonth, int localizedDay)
+	{
 		Part year = new Part(fourDigit, localizedYear);
 		Part month = new Part(twoDigit, localizedMonth);
 		Part day = new Part(twoDigit, localizedDay);
@@ -63,7 +69,7 @@ public class MultiDateFormat
 		for(int i = 0; i < mdyOrder.length(); ++i)
 		{
 			if(i > 0)
-				result.append(datePreference.getDelimiter());
+				result.append(delimiter);
 			Character thisPartCode = new Character(mdyOrder.charAt(i));
 			Part thisPart = (Part)codeToPart.get(thisPartCode);
 			result.append(thisPart.format.format(thisPart.value));
