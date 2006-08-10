@@ -10,6 +10,10 @@
  * A comment in the file claimed that it was created by "JSON.org"
  * and had been placed in the public domain. 
  * The Benetech copyright refers to the resulting "derived work". 
+ * 
+ * MODIFICATIONS:
+ *   - In optBoolean, changed == to .equals in two places
+ *   
  */
 package org.json;
 
@@ -508,9 +512,9 @@ public class JSONObject {
     public boolean optBoolean(String key, boolean defaultValue) {
         Object o = opt(key);
         if (o != null) {
-            if (o == Boolean.FALSE || o.equals("false")) {
+            if (o.equals(Boolean.FALSE) || o.equals("false")) {
                 return false;
-            } else if (o == Boolean.TRUE || o.equals("true")) {
+            } else if (o.equals(Boolean.TRUE) || o.equals("true")) {
                 return true;
             }
         }
