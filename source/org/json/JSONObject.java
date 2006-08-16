@@ -13,6 +13,7 @@
  * 
  * MODIFICATIONS:
  *   - In optBoolean, changed == to .equals in two places
+ *   - In getBoolean, changed == to .equals in two places
  *   
  */
 package org.json;
@@ -253,9 +254,9 @@ public class JSONObject {
     public boolean getBoolean(String key)
             throws ClassCastException, NoSuchElementException {
         Object o = get(key);
-        if (o == Boolean.FALSE || o.equals("false")) {
+        if (o.equals(Boolean.FALSE) || o.equals("false")) {
             return false;
-        } else if (o == Boolean.TRUE || o.equals("true")) {
+        } else if (o.equals(Boolean.TRUE) || o.equals("true")) {
             return true;
         }
         throw new ClassCastException("JSONObject[" +
