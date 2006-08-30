@@ -47,6 +47,14 @@ public class XmlUtilities
 			{
 				buf.replace(i, i+1, "&gt;");
 			}
+			else if(c == '"')
+			{
+				buf.replace(i, i+1, "&quot;");
+			}
+			else if(c == '\'')
+			{
+				buf.replace(i, i+1, "&#39;");
+			}
 		}
 		return buf.toString();
 	}
