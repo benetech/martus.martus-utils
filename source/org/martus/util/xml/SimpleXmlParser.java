@@ -35,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.martus.util.Stopwatch;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -50,10 +51,14 @@ public class SimpleXmlParser extends DefaultHandler
 		parse(loaderToUse, new StringReader(xmlText));
 	}
 	
+	static int parseCount;
 	public static void parse(SimpleXmlDefaultLoader loaderToUse, Reader xmlReader) throws 
 		IOException, ParserConfigurationException, SAXException
 	{
+		++parseCount;
+		Stopwatch sw = new Stopwatch();
 		new SimpleXmlParser(loaderToUse, xmlReader);
+		System.out.println("Parse " + parseCount + " took: " + sw.elapsed() + " millis");
 	}
 	
 	private SimpleXmlParser(SimpleXmlDefaultLoader loaderToUse, Reader xmlReader) throws 
