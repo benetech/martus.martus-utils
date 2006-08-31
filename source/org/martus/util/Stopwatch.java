@@ -52,7 +52,7 @@ public class Stopwatch
 	
 	public long elapsedInSeconds()
 	{
-		return (System.currentTimeMillis() - millis) / 1000;
+		return (System.currentTimeMillis() - millis) / millisInOneSecond;
 	}
 
 	public void message(PrintStream out, String text)
@@ -60,4 +60,5 @@ public class Stopwatch
 		out.println("" + elapsed() + ": " + text);
 	}
 	private long millis;
+	final int millisInOneSecond = 1000;
 }
