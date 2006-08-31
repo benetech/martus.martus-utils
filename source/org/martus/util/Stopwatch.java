@@ -50,6 +50,11 @@ public class Stopwatch
 		return System.currentTimeMillis() - millis;
 	}
 	
+	public long elapsedInSeconds()
+	{
+		return (System.currentTimeMillis() - millis) / 1000;
+	}
+
 	public void message(PrintStream out, String text)
 	{
 		out.println("" + elapsed() + ": " + text);
