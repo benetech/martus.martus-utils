@@ -206,7 +206,7 @@ public class MultiCalendar
 		GregorianCalendar cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
 		cal.set(Calendar.HOUR, 12);
 		
-		//java Bug Id 4846659, requires the getTime() after setting HOUR
+		// Java Bug Id 4846659, Java 1.5 requires calling getTime() after setting HOUR
 		cal.getTime();
 		
 		cal.set(Calendar.HOUR_OF_DAY, 12);
