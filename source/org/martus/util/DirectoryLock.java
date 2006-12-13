@@ -74,21 +74,6 @@ public class DirectoryLock
 		}
 	}
 	
-	public boolean isDirectoryLock(File directory) throws IOException
-	{
-		DirectoryLock lock = new DirectoryLock();
-		try
-		{
-			lock.lock(directory);
-			lock.close();
-			return false;
-		}
-		catch(AlreadyLockedException e)
-		{
-			return true;
-		}
-	}
-	
 	private File lockFile;
 	private FileOutputStream lockStream;
 }
