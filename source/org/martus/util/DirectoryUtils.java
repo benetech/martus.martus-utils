@@ -149,7 +149,7 @@ public class DirectoryUtils
 		return sortedFileList;
 	}
 	
-	public static void copyDirectory(File copyFrom, File copyTo) throws IOException
+	public static void copyDirectoryTree(File copyFrom, File copyTo) throws IOException
 	{
 		if(copyFrom.isDirectory())
 		{
@@ -158,9 +158,9 @@ public class DirectoryUtils
 
 			for(int i = 0; i < fileList.length; i++)
 			{
-				String targetFile = copyTo.getPath() + File.separator + fileList[i];
-				String sourceFile = copyFrom.getPath() + File.separator +  fileList[i];
-				copyDirectory(new File(sourceFile), new File(targetFile));
+				File targetFile = new File(copyTo, fileList[i]);
+				File sourceFile = new File(copyFrom, fileList[i]);
+				copyDirectoryTree(sourceFile, targetFile);
 			}
 		}
 		else
