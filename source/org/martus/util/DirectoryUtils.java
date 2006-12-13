@@ -27,6 +27,8 @@ package org.martus.util;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -145,6 +147,32 @@ public class DirectoryUtils
 				sortedFileList.add(fileToAdd);
 		}
 		return sortedFileList;
+	}
+	
+	public static void copyDirectory(File copyFrom, File copyTo) throws IOException
+	{
+		if(copyFrom.isDirectory())
+		{
+			copyTo.mkdirs();
+			String fileList[] = copyFrom.list();
+
+			for(int i = 0; i < fileList.length; i++)
+			{
+				String targetFile = copyTo.getPath() + File.separator + fileList[i];
+				String sourceFile = copyFrom.getPath() + File.separator +  fileList[i];
+				copyDirectory(new File(sourceFile), new File(targetFile));
+			}
+		}
+		else
+		{
+			FileInputStream inputStream = new FileInputStream(copyFrom);
+			FileOutputStream outputStream = new FileOutputStream(copyTo);
+			int chararcterToCopy;
+			while((chararcterToCopy = inputStream.read()) >= 0)
+				outputStream.write(chararcterToCopy);
+			inputStream.close();
+			outputStream.close();
+		}
 	}
 	
 }
