@@ -63,15 +63,29 @@ public class DirectoryLock
 	
 	public boolean getDirectoryLock(File directory) throws IOException
 	{
-		DirectoryLock lock = new DirectoryLock();
 		try
 		{
-			lock.lock(directory);
+			lock(directory);
 			return true;
 		}
 		catch(AlreadyLockedException e)
 		{
 			return false;
+		}
+	}
+	
+	public boolean isDirectoryLock(File directory) throws IOException
+	{
+		DirectoryLock lock = new DirectoryLock();
+		try
+		{
+			lock.lock(directory);
+			lock.close();
+			return false;
+		}
+		catch(AlreadyLockedException e)
+		{
+			return true;
 		}
 	}
 	
