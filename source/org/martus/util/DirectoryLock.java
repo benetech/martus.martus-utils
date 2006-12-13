@@ -61,6 +61,20 @@ public class DirectoryLock
 		return (lockStream != null);
 	}
 	
+	public boolean getDirectoryLock(File directory) throws IOException
+	{
+		DirectoryLock lock = new DirectoryLock();
+		try
+		{
+			lock.lock(directory);
+			return true;
+		}
+		catch(AlreadyLockedException e)
+		{
+			return false;
+		}
+	}
+	
 	private File lockFile;
 	private FileOutputStream lockStream;
 }
