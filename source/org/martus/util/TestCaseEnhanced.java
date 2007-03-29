@@ -36,7 +36,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -141,6 +143,23 @@ public class TestCaseEnhanced extends TestCase
 	{
 		if(expected.equals(actual))
 			throw new AssertionFailedError(message + ": Expected anything other than " + expected);
+	}
+	
+	public static void assertContains(Object expected, Object[] array)
+	{
+		assertNotNull(expected);
+		HashSet hashSet = (new HashSet(Arrays.asList(array)));
+		if (! hashSet.contains(expected))
+			throw new AssertionFailedError("<" + expected + "> not found in " + "<" + hashSet + ">");
+	}
+	
+	public static void assertContains(String message, Object expected, Object[] array)
+	{
+		assertNotNull(expected);
+		HashSet hashSet = (new HashSet(Arrays.asList(array)));
+		if (! hashSet.contains(expected))
+			throw new AssertionFailedError(message + ": " + "<" + expected + ">" +
+					" not found in " + "<" + hashSet + ">");
 	}
 
 	public static void assertContains(String expected, String container)
