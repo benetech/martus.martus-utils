@@ -145,6 +145,30 @@ public class TestCaseEnhanced extends TestCase
 			throw new AssertionFailedError(message + ": Expected anything other than " + expected);
 	}
 	
+	public static void assertContains(int expected, int[] array)
+	{
+		Integer[] integers = new Integer[array.length];
+		for (int i=0; i<array.length; ++i)
+		{
+			integers[i]=new Integer(array[i]);
+		}
+		
+		assertContains(new Integer(expected), integers);
+	}
+	
+	
+	public static void assertContains(String message, int expected, int[] array)
+	{
+		Integer[] integers = new Integer[array.length];
+		for (int i=0; i<array.length; ++i)
+		{
+			integers[i]=new Integer(array[i]);
+		}
+		
+		assertContains(message, new Integer(expected), integers);
+	}
+	
+	
 	public static void assertContains(Object expected, Object[] array)
 	{
 		assertNotNull(expected);
