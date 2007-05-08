@@ -1,0 +1,83 @@
+<!-- Ant build file - Needs Ant v1.6.x or later -->
+<project name="martus-utils" default="jar">
+    <description>
+        Build File for martus-utils
+    </description>
+	
+    <tstamp>
+        <format property="version.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+	
+	<property name="multiproject.root" value=".."/>
+	<property name="martus-thirdparty" value="${multiproject.root}/martus-thirdparty"/>
+	<property name="thirdparty.common.root" value="${martus-thirdparty}/common"/>
+	<property name="junit.jar" value="${martus-thirdparty}/libext/JUnit/bin/junit.jar"/>
+	
+	<property name="martus.utils.module"  value="martus-utils"/>
+	<property name="martus.utils.src.root" value="source"/>
+	<property name="martus.utils.class.root" value="bin"/>
+    <property name="martus.utils.dist.dir" value="dist"/>
+	<property name="jar.basename" value="martus-utils"/>
+	<property name="jar.filespec" value="${martus.utils.dist.dir}/${jar.basename}.jar"/>
+
+
+	<!-- ================================================================== -->
+	<!-- I N I T                                                            -->
+	<!-- ================================================================== -->
+	
+	<target name="init" description="Initialize version timestamps">
+		<echo message="Date timestamp is ${DSTAMP}" />
+		<echo message="Time timestamp is ${TSTAMP}" />
+		<echo message="Version timestamp is ${version.timestamp}" />
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- C L E A N                                                         -->
+	<!-- ================================================================== -->
+	<target name="clean">
+		<delete dir="${martus.utils.dist.dir}"/>
+		<delete dir="${martus.utils.class.root}"/>
+	</target>
+	
+	<!-- ================================================================== -->
+	<!-- B U I L D                                                          -->
+	<!-- ================================================================== -->
+	
+	<target name="build" depends="init" description="Compile">
+		<mkdir dir="${martus.utils.class.root}"/>
+		
+		<echo message="${thirdparty.common.root}"/>
+		<javac target="1.4" source="1.4" optimize="on" failonerror="true" 
+					srcdir="${martus.utils.src.root}" destdir="${martus.utils.class.root}">
+			<classpath>
+				<fileset dir="${thirdparty.common.root}">
+					<include name="**/*.jar"/>
+				</fileset>
+				<fileset file="${junit.jar}"/>
+			</classpath>
+			<include name="**/*.java"/>
+		</javac>
+		
+		<echo file="${martus.utils.class.root}/version.txt" append="false" message="${version.timestamp}"/>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- J A R                                                          -->
+	<!-- ================================================================== -->
+	<target name="jar" depends="build" description="Create jar">
+		<mkdir dir="${martus.utils.dist.dir}"/>
+		<jar destfile="${jar.filespec}">
+			<fileset dir="${martus.utils.class.root}" includes="**/*.class"/>
+			<fileset dir="${martus.utils.class.root}" includes="version.txt"/>
+		</jar>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- R E L E A S E                                                      -->
+	<!-- ================================================================== -->
+    <target name="release" depends="jar">
+        <echo message="Release Built"/>
+        <echo message="REMEMBER TO TAG THIS RELEASE WITH ${version.timestamp} !"/>
+    </target>
+	
+</project>
