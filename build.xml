@@ -77,9 +77,8 @@
 	<!-- R E L E A S E                                                      -->
 	<!-- ================================================================== -->
     <target name="release" depends="jar">
-        <echo message="Commiting built jar to cvs"/>
+        <echo message="Commiting entire project to cvs..."/>
     	<exec executable='cvs' 
-    			dir="${martus.utils.dist.dir}"
 	    		outputproperty="cvsout"
     			failonerror="true">
     		<arg value="-d"/>
@@ -88,8 +87,13 @@
     		<arg value="-m"/>
     		<arg value="&quot;${version.timestamp}&quot;"/>
     	</exec>
+
+    	<!--    	
+    	<echo message="${cvsout}"/>
+    	-->
+    	
     	<property name="tag" value="${martus.utils.module}_${version.timestamp}"/>
-        <echo message="Tagging jar as ${tag}"/>
+        <echo message="Tagging entire project as ${tag}"/>
     	<exec executable='cvs' 
 	    		outputproperty="cvsout"
     			failonerror="true">
@@ -98,6 +102,11 @@
     		<arg value="tag"/>
     		<arg value="${tag}"/>
     	</exec>
+
+    	<!--    	
+    	<echo message="${cvsout}"/>
+    	-->
+    	
    </target>
 	
 </project>
