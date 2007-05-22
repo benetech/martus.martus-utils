@@ -1,11 +1,11 @@
 <!-- Ant build file - Needs Ant v1.6.x or later -->
-<project name="martus-utils" default="jar">
+<project name="martus-utils" default="release">
     <description>
         Build File for martus-utils
     </description>
 	
     <tstamp>
-        <format property="version.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        <format property="version.timestamp" pattern="yyyy-MM-dd_HH_mm_ss"/>
     </tstamp>
 	
 	<property name="multiproject.root" value=".."/>
@@ -20,6 +20,7 @@
 	<property name="jar.basename" value="martus-utils"/>
 	<property name="jar.filespec" value="${martus.utils.dist.dir}/${jar.basename}.jar"/>
 
+	<property name="cvsroot" value=":extssh:kevins@cvs/var/local/cvs"/>
 
 	<!-- ================================================================== -->
 	<!-- I N I T                                                            -->
@@ -76,8 +77,27 @@
 	<!-- R E L E A S E                                                      -->
 	<!-- ================================================================== -->
     <target name="release" depends="jar">
-        <echo message="Release Built"/>
-        <echo message="REMEMBER TO TAG THIS RELEASE WITH ${version.timestamp} !"/>
-    </target>
+        <echo message="Commiting built jar to cvs"/>
+    	<exec executable='cvs' 
+    			dir="${martus.utils.dist.dir}"
+	    		outputproperty="cvsout"
+    			failonerror="true">
+    		<arg value="-d"/>
+    		<arg value="${cvsroot}"/>
+    		<arg value="commit"/>
+    		<arg value="-m"/>
+    		<arg value="&quot;${version.timestamp}&quot;"/>
+    	</exec>
+    	<property name="tag" value="${martus.utils.module}_${version.timestamp}"/>
+        <echo message="Tagging jar as ${tag}"/>
+    	<exec executable='cvs' 
+	    		outputproperty="cvsout"
+    			failonerror="true">
+    		<arg value="-d"/>
+    		<arg value="${cvsroot}"/>
+    		<arg value="tag"/>
+    		<arg value="${tag}"/>
+    	</exec>
+   </target>
 	
 </project>
