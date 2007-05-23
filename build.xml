@@ -59,7 +59,7 @@
 			<include name="**/*.java"/>
 		</javac>
 		
-		<echo file="${martus.utils.class.root}/version.txt" append="false" message="${version.timestamp}"/>
+		<echo file="${martus.utils.dist.dir}/version.txt" append="false" message="${version.timestamp}"/>
 	</target>
 
 	<!-- ================================================================== -->
@@ -69,7 +69,7 @@
 		<mkdir dir="${martus.utils.dist.dir}"/>
 		<jar destfile="${jar.filespec}">
 			<fileset dir="${martus.utils.class.root}" includes="**/*.class"/>
-			<fileset dir="${martus.utils.class.root}" includes="version.txt"/>
+			<fileset dir="${martus.utils.dist.dir}" includes="version.txt"/>
 		</jar>
 	</target>
 
