@@ -44,19 +44,14 @@ public class FileInputStreamWithSeek extends InputStreamWithSeek
 		inputStream = openStream();
 	}
 
+	public long totalSize()
+	{
+		return file.length();
+	}
+
 	InputStream openStream() throws IOException
 	{
 		return new FileInputStream(file);
-	}
-
-	public int read(byte[] bytes, int start, int len) throws IOException
-	{
-		return inputStream.read(bytes, start, len);
-	}
-
-	public int read(byte[] bytes) throws IOException
-	{
-		return inputStream.read(bytes);
 	}
 
 	File file;

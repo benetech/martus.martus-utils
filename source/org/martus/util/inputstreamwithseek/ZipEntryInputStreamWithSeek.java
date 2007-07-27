@@ -45,11 +45,16 @@ public class ZipEntryInputStreamWithSeek extends InputStreamWithSeek
 		inputStream = openStream();
 	}
 
+	public long totalSize()
+	{
+		return entry.getSize();
+	}
+
 	InputStream openStream() throws IOException
 	{
 		return zip.getInputStream(entry);
 	}
-
+	
 	protected ZipFile zip;
 	ZipEntry entry;
 }

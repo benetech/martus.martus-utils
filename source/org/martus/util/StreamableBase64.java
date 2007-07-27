@@ -50,6 +50,15 @@ public class StreamableBase64
 {
 	public static class InvalidBase64Exception extends Exception
 	{
+		public InvalidBase64Exception()
+		{
+			
+		}
+		
+		public InvalidBase64Exception(Exception e)
+		{
+			super(e);
+		}
 	}
 
 	public final static int BYTESPERLINE = 45;
@@ -96,34 +105,40 @@ public class StreamableBase64
 	{
 		if(base64.length() == 0)
 			return new byte[]{};
+		
 		try
 		{
+			char[] base64Chars = base64.toCharArray();
 			int pad = 0;
-			for(int i = base64.length() - 1; base64.charAt(i) == '='; --i)
+			for(int i = base64Chars.length - 1; base64Chars[i] == '='; --i)
 				pad++;
 
-			int length = base64.length() * 6 / 8 - pad;
+			int length = base64Chars.length * 6 / 8 - pad;
 			byte[] raw = new byte[length];
 			int rawIndex = 0;
-			for(int i = 0; i < base64.length(); i += 4)
+			for(int i = 0; i < base64Chars.length; i += 4)
 			{
 				int block =
-					(getValue(base64.charAt(i)) << 18) +
-					(getValue(base64.charAt(i+1)) << 12) +
-					(getValue(base64.charAt(i+2)) << 6) +
-					getValue(base64.charAt(i+3));
+					(getValue(base64Chars[i]) << 18) +
+					(getValue(base64Chars[i+1]) << 12) +
+					(getValue(base64Chars[i+2]) << 6) +
+					getValue(base64Chars[i+3]);
 
-				for(int j = 0; j < 3 && rawIndex + j < raw.length; ++j)
-					raw[rawIndex+j] = (byte)((block >> (8 * (2-j))) & 0xff);
-
-				rawIndex += 3;
+				// NOTE: Optimized for speed
+				if(rawIndex < length)
+					raw[rawIndex++] = (byte)((block >> 16) & 0xff);
+				if(rawIndex < length)
+					raw[rawIndex++] = (byte)((block >> 8) & 0xff);
+				if(rawIndex < length)
+					raw[rawIndex++] = (byte)((block) & 0xff);
 			}
 
 			return raw;
 		}
 		catch (Exception e)
 		{
-			throw new InvalidBase64Exception();
+			//e.printStackTrace();
+			throw new InvalidBase64Exception(e);
 		}
 	}
 

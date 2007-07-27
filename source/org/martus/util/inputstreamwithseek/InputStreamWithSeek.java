@@ -52,6 +52,16 @@ public abstract class InputStreamWithSeek extends InputStream
 		return got;
 	}
 
+	public int read(byte[] bytes, int start, int len) throws IOException
+	{
+		return inputStream.read(bytes, start, len);
+	}
+
+	public int read(byte[] bytes) throws IOException
+	{
+		return inputStream.read(bytes);
+	}
+
 	public long skip(long n) throws IOException
 	{
 		return inputStream.skip(n);
@@ -64,8 +74,22 @@ public abstract class InputStreamWithSeek extends InputStream
 		inputStream.skip(offset);
 	}
 
+	public InputStreamWithSeek convertToInMemoryStream() throws IOException
+	{
+		if(totalSize() > MAX_SIZE_IN_MEMORY)
+			return this;
+		
+		byte[] contents = new byte[(int)totalSize()];
+		read(contents);
+		InputStreamWithSeek convertedStream = new ByteArrayInputStreamWithSeek(contents);
+		return convertedStream;
+	}
+
+	public abstract long totalSize();
 	abstract InputStream openStream() throws IOException;
 
+	private static final int MAX_SIZE_IN_MEMORY = 100000;
+	
 	InputStream inputStream;
 
 }

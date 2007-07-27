@@ -50,10 +50,16 @@ public class ByteArrayInputStreamWithSeek extends InputStreamWithSeek
 		}
 	}
 
+	public long totalSize()
+	{
+		return bytes.length;
+	}
+
 	InputStream openStream() throws IOException
 	{
 		return new ByteArrayInputStream(bytes);
 	}
 
 	byte[] bytes;
+
 }
