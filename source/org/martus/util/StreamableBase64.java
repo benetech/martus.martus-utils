@@ -44,6 +44,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class StreamableBase64
@@ -118,11 +119,21 @@ public class StreamableBase64
 			int rawIndex = 0;
 			for(int i = 0; i < base64Chars.length; i += 4)
 			{
-				int block =
-					(getValue(base64Chars[i]) << 18) +
-					(getValue(base64Chars[i+1]) << 12) +
-					(getValue(base64Chars[i+2]) << 6) +
-					getValue(base64Chars[i+3]);
+				
+				// NOTE: Optimized for speed
+				byte byte0 = base64Decoder[base64Chars[i]];
+				if(byte0 < 0)
+					throw new InvalidBase64Exception();
+				byte byte1 = base64Decoder[base64Chars[i+1]];
+				if(byte1 < 0)
+					throw new InvalidBase64Exception();
+				byte byte2 = base64Decoder[base64Chars[i+2]];
+				if(byte2 < 0)
+					throw new InvalidBase64Exception();
+				byte byte3 = base64Decoder[base64Chars[i+3]];
+				if(byte3 < 0)
+					throw new InvalidBase64Exception();
+				int block =	(byte0 << 18) +	(byte1 << 12) +	(byte2 << 6) +	byte3;
 
 				// NOTE: Optimized for speed
 				if(rawIndex < length)
@@ -276,28 +287,33 @@ public class StreamableBase64
 		return '?';
 	}
 
-	public static int getValue(char c) throws InvalidBase64Exception
+	public static byte getValue(char c) throws InvalidBase64Exception
 	{
-		if(c >= 'A' && c <= 'Z')
-			return c - 'A';
-
-		if(c >= 'a' && c <= 'z')
-			return c - 'a' + 26;
-
-		if(c >= '0' && c <= '9')
-			return c - '0' + 52;
-
-		if(c == '+')
-			return 62;
-
-		if(c == '/')
-			return 63;
-
-		if(c == '=')
-			return 0;
-
-		throw new InvalidBase64Exception();
+		int value = base64Decoder[c];
+		if(value < 0)
+			throw new InvalidBase64Exception();
+		return (byte)value;
 	}
+	
+	private static byte[] createBase64Decoder()
+	{
+		System.out.println("Initializing Base64");
+		byte[] values = new byte[256];
+		Arrays.fill(values, (byte)-1);
+		for(byte alpha = 'A'; alpha <= 'Z'; ++alpha)
+			values[alpha] = (byte)(alpha - 'A');
+		for(byte alpha = 'a'; alpha <= 'z'; ++alpha)
+			values[alpha] = (byte)(alpha - 'a' + 26);
+		for(byte digit = '0'; digit <= '9'; ++digit)
+			values[digit] = (byte)(digit - '0' + 52);
+		values['+'] = 62;
+		values['/'] = 63;
+		values['='] = 0;
+		
+		return values;
+	}
+	
+	private static final byte[] base64Decoder = createBase64Decoder();
 	
 	public final static int streamBufferCopySize = 1024;
 	
