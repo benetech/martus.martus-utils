@@ -65,7 +65,7 @@ public class SimpleXmlParser extends DefaultHandler
 		IOException, ParserConfigurationException, SAXException
 	{
 		loaders = new Vector();
-		loaders.add(loaderToUse);
+		insertNewCurrentLoader(loaderToUse);
 		SAXParser saxParser = factory.newSAXParser();
 		saxParser.parse(new InputSource(xmlReader), this);
 	}
@@ -83,22 +83,22 @@ public class SimpleXmlParser extends DefaultHandler
 	{
 		if(!gotFirstTag)
 		{
-			String expectedTag = getCurrentLoader().getTag();
+			String expectedTag = currentLoader.getTag();
 			if(!qName.equals(expectedTag))
 				throw new SAXParseException("SimpleXmlParser expected root: " + expectedTag, null);
 			gotFirstTag = true;
-			getCurrentLoader().startDocument(attributes);
+			currentLoader.startDocument(attributes);
 			return;
 		}
-		SimpleXmlDefaultLoader newLoader = getCurrentLoader().startElement(qName);
+		SimpleXmlDefaultLoader newLoader = currentLoader.startElement(qName);
 		insertNewCurrentLoader(newLoader);
-		getCurrentLoader().startDocument(attributes);
+		currentLoader.startDocument(attributes);
 	}
 
 	public void characters(char[] ch, int start, int length)
 		throws SAXException
 	{
-		getCurrentLoader().addText(ch, start, length);
+		currentLoader.addText(ch, start, length);
 	}
 
 	public void endElement(String uri, String localName, String qName)
@@ -106,37 +106,38 @@ public class SimpleXmlParser extends DefaultHandler
 	{
 		if(loaders.size() > 1)
 		{
-			SimpleXmlDefaultLoader endingLoader = getCurrentLoader();
+			SimpleXmlDefaultLoader endingLoader = currentLoader;
 			endingLoader.endDocument();
 
 			removeCurrentLoader();
-			getCurrentLoader().endElement(endingLoader.getTag(), endingLoader);
+			currentLoader.endElement(endingLoader.getTag(), endingLoader);
 		}
 	}
 
 	public void endDocument() throws SAXParseException
 	{
-		getCurrentLoader().endDocument();
+		currentLoader.endDocument();
 	}
 
-
-	private SimpleXmlDefaultLoader getCurrentLoader()
-	{
-		return (SimpleXmlDefaultLoader)loaders.get(0);
-	}
 
 	private void insertNewCurrentLoader(SimpleXmlDefaultLoader newLoader)
 	{
 		loaders.insertElementAt(newLoader, 0);
+		currentLoader = newLoader;
 	}
 
 	private void removeCurrentLoader()
 	{
 		loaders.remove(0);
+		if(loaders.size() == 0)
+			currentLoader = null;
+		else
+			currentLoader = (SimpleXmlDefaultLoader)loaders.get(0);
 	}
 
 	boolean gotFirstTag;
 	Vector loaders;
+	SimpleXmlDefaultLoader currentLoader;
 
 	private static SAXParserFactory factory = SAXParserFactory.newInstance();
 }
