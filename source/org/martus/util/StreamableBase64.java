@@ -297,7 +297,6 @@ public class StreamableBase64
 	
 	private static byte[] createBase64Decoder()
 	{
-		System.out.println("Initializing Base64");
 		byte[] values = new byte[256];
 		Arrays.fill(values, (byte)-1);
 		for(byte alpha = 'A'; alpha <= 'Z'; ++alpha)
