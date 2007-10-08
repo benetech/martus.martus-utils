@@ -39,6 +39,13 @@ import java.util.Vector;
 
 public class DirectoryUtils
 {
+	static public File[] listFiles(File directory)
+	{
+		File[] files = directory.listFiles();
+		if(files == null)
+			return new File[0];
+		return files;
+	}
 	
 	static public void deleteEntireDirectoryTree(Vector directoriesToDelete)
 	{
