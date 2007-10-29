@@ -38,10 +38,10 @@ import java.io.OutputStream;
 
 public class FileOutputStreamViaTemp extends OutputStream
 {
-	public FileOutputStreamViaTemp(File destFile) throws IOException
+	public FileOutputStreamViaTemp(File destFile, File tempDirectory) throws IOException
 	{
 		realDestFile = destFile;
-		tempFile = File.createTempFile("$$$" + destFile.getName(), null);
+		tempFile = File.createTempFile("$$$" + destFile.getName(), "", tempDirectory);
 		tempFile.deleteOnExit();
 		tempOutputStream = new FileOutputStream(tempFile);
 	}

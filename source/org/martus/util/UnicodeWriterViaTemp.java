@@ -36,8 +36,8 @@ import java.io.IOException;
 
 public class UnicodeWriterViaTemp extends UnicodeWriter
 {
-	public UnicodeWriterViaTemp(File file) throws IOException
+	public UnicodeWriterViaTemp(File file, File tempDirectory) throws IOException
 	{
-		super(new FileOutputStreamViaTemp(file));
+		super(new FileOutputStreamViaTemp(file, tempDirectory));
 	}
 }
