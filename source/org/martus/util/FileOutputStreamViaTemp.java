@@ -55,7 +55,8 @@ public class FileOutputStreamViaTemp extends OutputStream
 	{
 		tempOutputStream.close();
 		realDestFile.delete();
-		tempFile.renameTo(realDestFile);
+		if(!tempFile.renameTo(realDestFile))
+			throw new IOException("Unable to rename from " + tempFile.getAbsolutePath() + " to " + realDestFile);
 	}
 
 	public void flush() throws IOException
