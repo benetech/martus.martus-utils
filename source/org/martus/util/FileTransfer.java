@@ -36,7 +36,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.channels.FileChannel;
 import java.util.Vector;
 
 
@@ -50,12 +49,12 @@ public class FileTransfer
 	
 	public static void streamTransfer(FileInputStream in, FileOutputStream out) throws IOException 
 	{
-		 FileChannel sourceChannel = in.getChannel();
-		 FileChannel destinationChannel = out.getChannel();
-		 sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-		
-		 sourceChannel.close();
-		 destinationChannel.close();
+		int got = in.read();
+		while(got >= 0)
+		{
+			out.write(got);
+			got = in.read();
+		}
 	}
 	
 	public static Vector readDataFromFile(File adminFile) throws IOException
