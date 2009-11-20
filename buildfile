@@ -1,5 +1,4 @@
 repositories.remote << 'http://www.ibiblio.org/maven2/'
-repositories.remote << 'http://artifacts.miradi.org/repo/'
 
 my_layout = Layout.new
 my_layout[:source, :main, :java] = 'source'
