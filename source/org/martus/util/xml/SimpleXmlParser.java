@@ -114,7 +114,7 @@ public class SimpleXmlParser extends DefaultHandler
 		}
 	}
 
-	public void endDocument() throws SAXParseException
+	public void endDocument() throws SAXException
 	{
 		currentLoader.endDocument();
 	}

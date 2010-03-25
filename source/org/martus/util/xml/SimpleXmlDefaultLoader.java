@@ -98,7 +98,7 @@ public class SimpleXmlDefaultLoader
 			throw new SAXParseException(getTag() + ": Unexpected end: " + tag, null);
 	}
 	
-	public void endDocument() throws SAXParseException
+	public void endDocument() throws SAXException
 	{
 	}
 	
