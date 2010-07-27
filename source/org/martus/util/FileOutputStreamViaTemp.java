@@ -31,7 +31,9 @@ between Benetech and WCS dated 5/1/05.
 
 package org.martus.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -54,9 +56,42 @@ public class FileOutputStreamViaTemp extends OutputStream
 	public void close() throws IOException
 	{
 		tempOutputStream.close();
-		realDestFile.delete();
+		if(realDestFile.exists())
+		{
+			if(areContentsIdentical(tempFile, realDestFile))
+				return;
+			if(!realDestFile.delete())
+				throw new IOException("Unable to delete existing file: " + realDestFile.getAbsolutePath());
+		}
 		if(!tempFile.renameTo(realDestFile))
 			throw new IOException("Unable to rename from " + tempFile.getAbsolutePath() + " to " + realDestFile);
+	}
+
+	private boolean areContentsIdentical(File file1, File file2) throws IOException
+	{
+		if(file1.length() != file2.length())
+			return false;
+		
+		BufferedInputStream in1 = new BufferedInputStream(new FileInputStream(file1));
+		BufferedInputStream in2 = new BufferedInputStream(new FileInputStream(file2));
+		try
+		{
+			while(true)
+			{
+				int byte1 = in1.read();
+				int byte2 = in2.read();
+				if(byte1 != byte2)
+					return false;
+				if(byte1 < 0)
+					break;
+			}
+			return true;
+		}
+		finally
+		{
+			in2.close();
+			in1.close();
+		}
 	}
 
 	public void flush() throws IOException
