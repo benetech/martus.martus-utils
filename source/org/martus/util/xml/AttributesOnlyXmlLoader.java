@@ -61,7 +61,6 @@ public class AttributesOnlyXmlLoader extends SimpleXmlDefaultLoader
 		super(tag);
 	}
 
-	@Override
 	public void startDocument(Attributes attrs) throws SAXParseException
 	{
 		super.startDocument(attrs);
