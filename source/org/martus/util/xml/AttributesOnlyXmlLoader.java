@@ -51,6 +51,9 @@ Boston, MA 02111-1307, USA.
 
 package org.martus.util.xml;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 
@@ -59,18 +62,27 @@ public class AttributesOnlyXmlLoader extends SimpleXmlDefaultLoader
 	public AttributesOnlyXmlLoader(String tag)
 	{
 		super(tag);
+		attributes = new HashMap();
 	}
 
 	public void startDocument(Attributes attrs) throws SAXParseException
 	{
 		super.startDocument(attrs);
-		attributes = attrs;
+		attributes.clear();
+		for(int i = 0; i < attrs.getLength(); ++i)
+		{
+			String key = attrs.getQName(i);
+			if(key.length() == 0)
+				continue;
+			String value = attrs.getValue(i);
+			attributes.put(key, value);
+		}
 	}
 	
 	public String getAttribute(String key)
 	{
-		return attributes.getValue(key);
+		return (String)attributes.get(key);
 	}
 
-	private Attributes attributes;
+	private Map attributes;
 }
