@@ -57,7 +57,12 @@ public class Stopwatch
 	
 	public long elapsedInSeconds()
 	{
-		return (System.currentTimeMillis() - millis) / millisInOneSecond;
+		return elapsed() / millisInOneSecond;
+	}
+
+	public int elapsedInMinutes()
+	{
+		return (int)(elapsedInSeconds() / secondsInOneMinute);
 	}
 
 	public void message(PrintStream out, String text)
@@ -65,5 +70,6 @@ public class Stopwatch
 		out.println("" + elapsed() + ": " + text);
 	}
 	private long millis;
-	final int millisInOneSecond = 1000;
+	final static int millisInOneSecond = 1000;
+	final static int secondsInOneMinute = 60; 
 }
