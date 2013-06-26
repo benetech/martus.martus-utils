@@ -42,7 +42,6 @@ import java.util.HashSet;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import sun.reflect.Reflection;
 
 
 public class TestCaseEnhanced extends TestCase
