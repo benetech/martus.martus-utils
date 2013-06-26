@@ -274,27 +274,6 @@ public class TestCaseEnhanced extends TestCase
 			throw new AssertionFailedError(label + ": <" + expected + ">" + " not at end of " + "<" + container + ">");
 	}
 
-	public static String getCallingTestClass()
-	{
-		try
-		{
-			int depth = 1;
-			while(true)
-			{
-			   ++depth;
-				String completeCallingClassName = Reflection.getCallerClass(depth).getName();
-				int pos = completeCallingClassName.lastIndexOf(".");
-				String classNameOnly = completeCallingClassName.substring(pos+1);
-				if(classNameOnly.startsWith("Test"))
-					return completeCallingClassName;
-			}
-		}
-		catch(RuntimeException e)
-		{
-		}
-		return "NoCallingTestFound";
-	}
-	
 	abstract public static class TestingThread extends Thread
 	{
 		public Throwable getResult()
