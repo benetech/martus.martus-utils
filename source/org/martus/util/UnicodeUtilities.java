@@ -1,7 +1,7 @@
 /*
 
 The Martus(tm) free, social justice documentation and
-monitoring software. Copyright (C) 2006-2007, Beneficent
+monitoring software. Copyright (C) 2014, Beneficent
 Technology, Inc. (The Benetech Initiative).
 
 Martus is free software; you can redistribute it and/or
@@ -30,31 +30,18 @@ between Benetech and WCS dated 5/1/05.
 */
 package org.martus.util;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.io.UnsupportedEncodingException;
 
-public class TestUtil
+public class UnicodeUtilities 
 {
-	public static void main (String[] args)
+	public static byte[] toUnicodeBytes(String data) throws UnsupportedEncodingException
 	{
-		runTests();
+		return data.getBytes("UTF-8");
 	}
 
-	public static void runTests ()
+	public static String toUnicodeString(byte[] data) throws UnsupportedEncodingException
 	{
-		junit.textui.TestRunner.run (suite());
+		return new String(data, "UTF-8");
 	}
-
-	public static Test suite ( )
-	{
-		TestSuite suite= new TestSuite("All org.martus.util tests");
-
-		//suite.addTest(new TestSuite(TestXxxYyy.class));
-		suite.addTest(new TestSuite(TestDatePreference.class));
-		suite.addTest(new TestSuite(TestMultiDateFormat.class));
-		suite.addTest(new TestSuite(TestMultiCalendar.class));
-		suite.addTest(new TestSuite(TestUnicodeUtilities.class));
-		
-		return suite;
-	}
+	
 }
