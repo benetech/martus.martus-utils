@@ -31,7 +31,6 @@ between Benetech and WCS dated 5/1/05.
 
 package org.martus.util;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class TestUnicodeUtilities extends TestCaseEnhanced 
 {
