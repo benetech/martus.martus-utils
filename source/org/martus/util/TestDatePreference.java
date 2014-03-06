@@ -71,6 +71,15 @@ public class TestDatePreference extends TestCaseEnhanced
 		assertEquals("didn't use dmy?", "dd/MM/yyyy", pref.getDateTemplate());
 	}
 	
+	public void testIncorrectPrametersShouldResultToDefaultValues()
+	{
+		DatePreference pref = new DatePreference();
+		pref.setDateTemplate("incorrect");
+		assertEquals("wrong dmy order?", "mdy", pref.getMdyOrder());
+		assertEquals("wrong default delimiter?", '/', pref.getDelimiter());
+		
+	}
+	
 	public void testRightToLeft() throws Exception
 	{
 		DatePreference pref = new DatePreference();
@@ -106,10 +115,10 @@ public class TestDatePreference extends TestCaseEnhanced
 		try
 		{
 			pref.setDateTemplate(template);
-			fail("Should have thrown for " + message);
 		}
-		catch(RuntimeException ignoreExpected)
+		catch(RuntimeException e)
 		{
+			fail("We now handle this case and set to defaults");
 		}
 	}
 }

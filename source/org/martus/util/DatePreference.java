@@ -36,7 +36,7 @@ public class DatePreference
 {
 	public DatePreference()
 	{
-		this("mdy", '/');
+		this(DEFAULT_DATE_MDY_ORDER, DEFAULT_DATE_DELIMITER);
 	}
 	
 	public DatePreference(String mdyOrder, char delimiter)
@@ -110,8 +110,24 @@ public class DatePreference
 	
 	public void setDateTemplate(String template)
 	{
-		setMdyOrder(detectMdyOrder(template));
-		setDelimiter(detectDelimiter(template));
+		try 
+		{
+			setMdyOrder(detectMdyOrder(template));
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			setMdyOrder(DEFAULT_DATE_MDY_ORDER);
+		}
+		try 
+		{
+			setDelimiter(detectDelimiter(template));
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			setDelimiter(DEFAULT_DATE_DELIMITER);
+		}
 	}
 	
 	private static String detectMdyOrder(String template)
@@ -142,11 +158,16 @@ public class DatePreference
 
 	private static char detectDelimiter(String template)
 	{
-		int at = 0;
-		while(Character.isLetter(template.charAt(at)))
-			++at;
-		
-		return template.charAt(at);
+		try 
+		{
+			int at = 0;
+			while(Character.isLetter(template.charAt(at)))
+				++at;
+			return template.charAt(at);
+		} catch (Exception e) 
+		{
+			throw new RuntimeException("Missing correct delimiter -/. field in template: " + template);
+		}
 	}
 
 	private static String getTemplateField(char fieldId)
@@ -162,4 +183,7 @@ public class DatePreference
 	
 	private char delimiter;
 	private String mdyOrder;
+	private static final char DEFAULT_DATE_DELIMITER = '/';
+	private static final String DEFAULT_DATE_MDY_ORDER = "mdy";
+	
 }
