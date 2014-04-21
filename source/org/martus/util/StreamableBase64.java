@@ -36,12 +36,14 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Arrays;
@@ -240,6 +242,21 @@ public class StreamableBase64
 	}
 
 
+	public static String readAllAndEncodeBase64(File templateFile) throws Exception
+	{
+		InputStream in = new FileInputStream(templateFile);
+		try
+		{
+			StringWriter writer = new StringWriter();
+			encode(in, writer);
+			return writer.toString();
+		}
+		finally
+		{
+			in.close();
+		}
+	}
+	
 	protected static char[] encodeBlock(byte[] raw, int offset, int length)
 	{
 		int block = 0;
