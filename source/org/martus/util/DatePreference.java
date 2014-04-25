@@ -108,26 +108,10 @@ public class DatePreference
 		return template.toString();
 	}
 	
-	public void setDateTemplate(String template)
+	public void setDateTemplate(String template) throws Exception
 	{
-		try 
-		{
-			setMdyOrder(detectMdyOrder(template));
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			setMdyOrder(DEFAULT_DATE_MDY_ORDER);
-		}
-		try 
-		{
-			setDelimiter(detectDelimiter(template));
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			setDelimiter(DEFAULT_DATE_DELIMITER);
-		}
+		setMdyOrder(detectMdyOrder(template));
+		setDelimiter(detectDelimiter(template));
 	}
 	
 	private static String detectMdyOrder(String template)
@@ -183,7 +167,7 @@ public class DatePreference
 	
 	private char delimiter;
 	private String mdyOrder;
-	private static final char DEFAULT_DATE_DELIMITER = '/';
-	private static final String DEFAULT_DATE_MDY_ORDER = "mdy";
+	public static final char DEFAULT_DATE_DELIMITER = '/';
+	public static final String DEFAULT_DATE_MDY_ORDER = "mdy";
 	
 }
