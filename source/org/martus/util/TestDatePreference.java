@@ -119,10 +119,10 @@ public class TestDatePreference extends TestCaseEnhanced
 		try
 		{
 			pref.setDateTemplate(template);
+			fail("Should have thrown");
 		}
-		catch(Exception e)
+		catch(Exception ignoreExpected)
 		{
-			fail("We now handle this case and set to defaults");
 		}
 	}
 }
