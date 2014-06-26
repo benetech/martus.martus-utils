@@ -53,7 +53,7 @@ public class TestCaseEnhanced extends TestCase
 
 	public File createTempFile() throws IOException
 	{
-		final String tempFileName = "$$$" + getName();
+		final String tempFileName = "MartusTest-" + getName();
 		return createTempFileFromName(tempFileName);
 	}
 
