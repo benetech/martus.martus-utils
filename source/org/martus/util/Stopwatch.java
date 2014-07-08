@@ -35,6 +35,16 @@ import java.io.PrintStream;
 
 public class Stopwatch
 {
+	public static interface VoidVoidMethod
+	{
+		public void method() throws Exception;
+	}
+	
+	public static long timeInMillis(VoidVoidMethod method)
+	{
+		return 0;
+	}
+	
 	public Stopwatch()
 	{
 		start();
