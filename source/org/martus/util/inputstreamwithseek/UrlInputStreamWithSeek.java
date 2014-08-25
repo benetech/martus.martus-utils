@@ -1,7 +1,7 @@
 /*
 
 The Martus(tm) free, social justice documentation and
-monitoring software. Copyright (C) 2001-2007, Beneficent
+monitoring software. Copyright (C) 2001-2014, Beneficent
 Technology, Inc. (The Benetech Initiative).
 
 Martus is free software; you can redistribute it and/or
@@ -33,63 +33,27 @@ package org.martus.util.inputstreamwithseek;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
-public abstract class InputStreamWithSeek extends InputStream
+public class UrlInputStreamWithSeek extends InputStreamWithSeek 
 {
-	public int available() throws IOException
+	public UrlInputStreamWithSeek(URL urlToUse) throws IOException
 	{
-		return inputStream.available();
-	}
-
-	public void close() throws IOException
-	{
-		inputStream.close();
-	}
-
-	public int read() throws IOException
-	{
-		int got = inputStream.read();
-		return got;
-	}
-
-	public int read(byte[] bytes, int start, int len) throws IOException
-	{
-		return inputStream.read(bytes, start, len);
-	}
-
-	public int read(byte[] bytes) throws IOException
-	{
-		return inputStream.read(bytes);
-	}
-
-	public long skip(long n) throws IOException
-	{
-		return inputStream.skip(n);
-	}
-
-	public void seek(long offset) throws IOException
-	{
-		inputStream.close();
+		url = urlToUse;
 		inputStream = openStream();
-		inputStream.skip(offset);
 	}
-
-	public InputStreamWithSeek convertToInMemoryStream() throws IOException
-	{
-		if(totalSize() > MAX_SIZE_IN_MEMORY)
-			return this;
-		
-		byte[] contents = new byte[(int)totalSize()];
-		read(contents);
-		InputStreamWithSeek convertedStream = new ByteArrayInputStreamWithSeek(contents);
-		return convertedStream;
-	}
-
-	public abstract long totalSize() throws IOException;
-	abstract InputStream openStream() throws IOException;
-
-	private static final int MAX_SIZE_IN_MEMORY = 100000;
 	
-	InputStream inputStream;
+	@Override
+	public long totalSize() throws IOException
+	{
+		return url.openConnection().getContentLengthLong();
+	}
 
+	@Override
+	InputStream openStream() throws IOException 
+	{
+		return url.openStream();
+	}
+
+	private URL url;
 }
