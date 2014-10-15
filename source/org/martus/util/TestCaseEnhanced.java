@@ -71,6 +71,7 @@ public class TestCaseEnhanced extends TestCase
 		} 
 		finally 
 		{
+			out.flush();
 			out.close();
 		}
 		return temp;
