@@ -60,9 +60,9 @@ public class TestCaseEnhanced extends TestCase
 		return createTempFileFromName(tempFileName);
 	}
 
-	public File stringToFile(String fileName, String data) throws IOException 
+	public File stringToFile(String fileName, String extension, String data) throws IOException 
 	{
-		File temp = createTempFileFromName(fileName);
+		File temp = createTempFileFromName(fileName, extension);
 		InputStream in = new StringInputStreamWithSeek(data);
 		OutputStream out = new FileOutputStream(temp);
 		try 
@@ -79,7 +79,12 @@ public class TestCaseEnhanced extends TestCase
 
 	public File createTempFileFromName(String name) throws IOException
 	{
-		File file = File.createTempFile(name, null);
+		return createTempFileFromName(name, null);
+	}
+
+	public File createTempFileFromName(String name, String extension) throws IOException
+	{
+		File file = File.createTempFile(name, extension);
 		file.deleteOnExit();
 		return file;
 	}
