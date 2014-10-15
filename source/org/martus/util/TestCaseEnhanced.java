@@ -36,9 +36,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+
+import org.martus.util.inputstreamwithseek.StringInputStreamWithSeek;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -55,6 +58,22 @@ public class TestCaseEnhanced extends TestCase
 	{
 		final String tempFileName = "MartusTest-" + getName();
 		return createTempFileFromName(tempFileName);
+	}
+
+	public File stringToFile(String fileName, String data) throws IOException 
+	{
+		File temp = createTempFileFromName(fileName);
+		InputStream in = new StringInputStreamWithSeek(data);
+		OutputStream out = new FileOutputStream(temp);
+		try 
+		{
+			new StreamCopier().copyStream(in, out);
+		} 
+		finally 
+		{
+			out.close();
+		}
+		return temp;
 	}
 
 	public File createTempFileFromName(String name) throws IOException
