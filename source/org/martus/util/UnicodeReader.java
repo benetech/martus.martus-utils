@@ -42,7 +42,7 @@ public class UnicodeReader extends BufferedReader
 {
 	public UnicodeReader(File file) throws IOException
 	{
-		this(new FileInputStream(file.getPath()));
+		this(new FileInputStream(file));
 	}
 
 	public UnicodeReader(InputStream inputStream) throws IOException
