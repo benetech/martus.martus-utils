@@ -51,7 +51,7 @@ public class UnicodeWriter extends OutputStreamWriter
 
 	public UnicodeWriter(File file, int mode) throws IOException
 	{
-		this(new FileOutputStream(file.getPath(), (mode==APPEND)));
+		this(new FileOutputStream(file, (mode==APPEND)));
 	}
 
 	public UnicodeWriter(OutputStream outputStream) throws IOException

@@ -51,6 +51,7 @@ public class TestUtil
 
 		//suite.addTest(new TestSuite(TestXxxYyy.class));
 		suite.addTest(new TestSuite(TestDatePreference.class));
+		suite.addTest(new TestSuite(TestFileUtils.class));
 		suite.addTest(new TestSuite(TestMultiDateFormat.class));
 		suite.addTest(new TestSuite(TestMultiCalendar.class));
 		suite.addTest(new TestSuite(TestUnicodeUtilities.class));
