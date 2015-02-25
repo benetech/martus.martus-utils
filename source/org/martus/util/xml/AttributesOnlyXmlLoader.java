@@ -79,6 +79,11 @@ public class AttributesOnlyXmlLoader extends SimpleXmlDefaultLoader
 		}
 	}
 	
+	protected Map getAttributes() 
+	{
+		return attributes;
+	}
+	
 	public String getAttribute(String key)
 	{
 		return (String)attributes.get(key);
