@@ -64,4 +64,9 @@ public class XmlUtilities
 		return buf.toString();
 	}
 
+	public static String createStartElement(String text)
+	{
+		return "<" + text + ">";
+	}
+
 }
