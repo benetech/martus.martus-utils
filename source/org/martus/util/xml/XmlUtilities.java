@@ -69,4 +69,8 @@ public class XmlUtilities
 		return "<" + text + ">";
 	}
 
+	public static String createEndTag(String text)
+	{
+		return createStartElement("/" + text);
+	}
 }
