@@ -73,4 +73,9 @@ public class XmlUtilities
 	{
 		return createStartElement("/" + text);
 	}
+
+	public static String stripXmlHeader(String string)
+	{
+		return string.replaceAll("<\\?xml.*?\\?>", "");
+	}
 }
