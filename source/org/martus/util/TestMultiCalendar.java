@@ -30,6 +30,9 @@ between Benetech and WCS dated 5/1/05.
 */
 package org.martus.util;
 
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+
 
 public class TestMultiCalendar extends TestCaseEnhanced
 {
@@ -52,7 +55,22 @@ public class TestMultiCalendar extends TestCaseEnhanced
 		// policy inside Java's Calendar.hashCode method
 		
 		assertNotEquals("didn't check type?", a, new Object());
-		
 	}
-	
+
+	public void testTodaysDate()
+	{
+		MultiCalendar multiCalendarToday = new MultiCalendar();
+		GregorianCalendar gregorianCalendarToday = new GregorianCalendar(new SimpleTimeZone(MultiCalendar.UTC_OFFSET, "martus"));
+		assertEquals("Not the same year?", multiCalendarToday.getGregorianYear(), gregorianCalendarToday.get(GregorianCalendar.YEAR));
+		assertEquals("Not the same month?", multiCalendarToday.getGregorianMonth(), getDisplayableMonthCount(gregorianCalendarToday));
+		assertEquals("Not the same day?", multiCalendarToday.getGregorianDay(), gregorianCalendarToday.get(GregorianCalendar.DAY_OF_MONTH));
+		assertEquals("Not 12 O'clock PM?", multiCalendarToday.getTime().getHours(), 12);
+		assertEquals("Not 0 minutes?", multiCalendarToday.getTime().getMinutes(), 0);
+		assertEquals("Not 0 seconds?", multiCalendarToday.getTime().getSeconds(), 0);
+	}
+
+	private int getDisplayableMonthCount(GregorianCalendar gregorianCalendarToday) 
+	{
+		return gregorianCalendarToday.get(GregorianCalendar.MONTH) + 1;
+	}	
 }

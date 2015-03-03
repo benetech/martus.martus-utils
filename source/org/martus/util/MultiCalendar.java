@@ -209,11 +209,6 @@ public class MultiCalendar
 	private static GregorianCalendar createGregorianCalendarToday()
 	{
 		GregorianCalendar cal = new GregorianCalendar(new SimpleTimeZone(UTC_OFFSET, "martus"));
-		cal.set(Calendar.HOUR, 12);
-		
-		// Java Bug Id 4846659, Java 1.5 requires calling getTime() after setting HOUR
-		cal.getTime();
-		
 		cal.set(Calendar.HOUR_OF_DAY, 12);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
@@ -238,7 +233,7 @@ public class MultiCalendar
 		return (getGregorianYear() == YEAR_NOT_SPECIFIED);
 	}
 
-	private static final int UTC_OFFSET = 0;
+	public static final int UTC_OFFSET = 0;
 	
 	int gregorianYear;
 	int gregorianMonth;
