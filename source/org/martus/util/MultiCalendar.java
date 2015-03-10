@@ -109,7 +109,12 @@ public class MultiCalendar
 	
 	public int getGregorianMonth()
 	{
-		return getGregorianCalendar().get(Calendar.MONTH) + 1;
+		return getCalendarMonthNumber(getGregorianCalendar());
+	}
+
+	private int getCalendarMonthNumber(GregorianCalendar calendar) 
+	{
+		return calendar.get(Calendar.MONTH) + 1;
 	}
 	
 	public int getGregorianDay()
@@ -219,7 +224,7 @@ public class MultiCalendar
 	
 	private void set(GregorianCalendar copyFrom)
 	{
-		setGregorian(copyFrom.get(Calendar.YEAR), copyFrom.get(Calendar.MONTH) + 1, copyFrom.get(Calendar.DAY_OF_MONTH));
+		setGregorian(copyFrom.get(Calendar.YEAR), getCalendarMonthNumber(copyFrom), copyFrom.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	public static MultiCalendar createCalendarFromPersianYearMonthDay(int year, int month, int day)
