@@ -29,6 +29,7 @@ public class TestXmlUtilities extends TestCaseEnhanced
 		verifyStripXmlElement("", "", "");
 		verifyStripXmlElement("<someElement>value</someElement>", "<someElement>value</someElement>", "");
 		verifyStripXmlElement("value", "<someElement>value</someElement>", "someElement");
+		verifyStripXmlElement("value", "<sOMeElement>value</SomeElement>", "SOmeElement");
 		verifyStripXmlElement("value", "< someElement >value< / someElement >", "someElement");
 		verifyStripXmlElement("<someElement>value</someElement>", "<someElement><nestedElement>value</nestedElement></someElement>", "nestedElement");
 		verifyStripXmlElement("value", "<someElement attribute=\"value\">value</someElement>", "someElement");
