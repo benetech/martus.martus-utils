@@ -31,9 +31,10 @@ between Benetech and WCS dated 5/1/05.
 
 package org.martus.util.xml;
 
+import java.util.regex.Pattern;
+
 public class XmlUtilities
 {
-
 	public static String getXmlEncoded(String text)
 	{
 		StringBuffer buf = new StringBuffer(text);
@@ -77,5 +78,49 @@ public class XmlUtilities
 	public static String stripXmlHeader(String string)
 	{
 		return string.replaceAll("<\\?xml.*?\\?>", "");
+	}
+	
+	public static String stripXmlStartEndElements(String xml, String elementNameToStrip)
+	{
+		return replaceXmlTags(xml, elementNameToStrip, "");
+	}
+	
+	private static String replaceXmlTags(String text, String tagToReplace, final String replacement)
+	{
+		final String START_ELEMENT_REGEX = createStartTagRegex(tagToReplace);
+		final String START_ELEMENT_WITH_ATRIBUTE_REGEX = createStartTagWithAttributeRegex(tagToReplace);
+		final String END_ELEMENT_REGEX = createEndTagRegex(tagToReplace);
+		final String EMPTY_ELEMENT_REGEX = createEmptyTagRegex(tagToReplace);
+		
+		final String REGEX_TO_REMOVE_START_AND_ELEMENT = START_ELEMENT_REGEX + "|" + EMPTY_ELEMENT_REGEX + "|" + END_ELEMENT_REGEX + "|" + START_ELEMENT_WITH_ATRIBUTE_REGEX; 
+		
+		return replaceAll(REGEX_TO_REMOVE_START_AND_ELEMENT, text, replacement);
+	}
+
+	private static String createStartTagWithAttributeRegex(String tagToReplace)
+	{
+		return "<\\s*" + tagToReplace + "\\s+.*?>";
+	}
+	
+	private static String createStartTagRegex(String tagToReplace)
+	{
+		return "<\\s*" + tagToReplace + "\\s*>";
+	}
+
+	private static String createEmptyTagRegex(String tagToReplace)
+	{
+		return "<\\s*" + tagToReplace + "\\s*/\\s*>";
+	}
+
+	private static String createEndTagRegex(String tag)
+	{
+		return "<\\s*\\/\\s*" + tag + "\\s*>";
+	}
+	
+	private static String replaceAll(final String regex, final String text, final String replacement)
+	{
+		final Pattern compiledRegex = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		
+		return compiledRegex.matcher(text).replaceAll(replacement);
 	}
 }

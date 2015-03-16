@@ -23,4 +23,19 @@ public class TestXmlUtilities extends TestCaseEnhanced
 	{
 		assertEquals("Xml header not removed?", expectedValue, XmlUtilities.stripXmlHeader(valueToStripHeaderFrom));
 	}
+	
+	public void testStripXmlElement()
+	{
+		verifyStripXmlElement("", "", "");
+		verifyStripXmlElement("<someElement>value</someElement>", "<someElement>value</someElement>", "");
+		verifyStripXmlElement("value", "<someElement>value</someElement>", "someElement");
+		verifyStripXmlElement("value", "< someElement >value< / someElement >", "someElement");
+		verifyStripXmlElement("<someElement>value</someElement>", "<someElement><nestedElement>value</nestedElement></someElement>", "nestedElement");
+		verifyStripXmlElement("value", "<someElement attribute=\"value\">value</someElement>", "someElement");
+	}
+
+	private void verifyStripXmlElement(String expectedResult, String valueToStripFrom, String elementNameToStrip)
+	{
+		assertEquals("Xml element stripped incorrectly?", expectedResult, XmlUtilities.stripXmlStartEndElements(valueToStripFrom, elementNameToStrip));
+	}
 }
